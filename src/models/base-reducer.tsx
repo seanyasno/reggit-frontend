@@ -1,5 +1,5 @@
 export default class BaseReducer {
-    private initialState: object = {};
+    initialState: object = {};
 
     reducer = (state = this.initialState, action: object) => {
         // @ts-ignore

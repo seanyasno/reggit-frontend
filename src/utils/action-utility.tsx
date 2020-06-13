@@ -1,7 +1,7 @@
 import {Dispatch} from "react";
 
 export default class ActionUtility {
-    static async createThunkEffect(dispatch: Dispatch<any>, actionType: string, effect: void, ...args: any) {
+    static async createThunkEffect(dispatch: Dispatch<any>, actionType: string, effect: any, ...args: any) {
         dispatch(ActionUtility.createAction(actionType));
         // @ts-ignore
         const model = await effect(...args);

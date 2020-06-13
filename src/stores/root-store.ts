@@ -3,7 +3,7 @@ import {applyMiddleware, createStore} from 'redux';
 import {rootReducer} from './index';
 import thunk from 'redux-thunk';
 
-export default (initialState: object, history: History) => {
+export default (initialState: object, history: History | null = null) => {
     const middleware = [thunk].filter(Boolean);
 
     return createStore(

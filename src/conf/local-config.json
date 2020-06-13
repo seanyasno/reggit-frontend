@@ -3,8 +3,8 @@
   "SERVER_PORT": 1337,
   "ROUTES": {
     "AUTH": {
-      "LOGIN": "/login",
-      "REGISTER": "/register"
+      "LOGIN": "/api/auth/login",
+      "REGISTER": "/api/auth/register"
     }
   }
 }
