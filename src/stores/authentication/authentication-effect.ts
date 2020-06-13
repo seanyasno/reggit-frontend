@@ -19,6 +19,14 @@ export default class AuthenticationEffect {
         return await responseData;
     }
 
+    static logout(dispatch: Dispatch<any>) {
+        if (localStorage.jwtToken) {
+            localStorage.removeItem('jwtToken');
+            dispatch(AuthenticationAction.setCurrentUser({}));
+            return {};
+        }
+    }
+
     static setCurrentUser(user: any) {
         return {user};
     }

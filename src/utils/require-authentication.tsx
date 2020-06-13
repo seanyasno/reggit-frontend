@@ -7,7 +7,6 @@ export default function (ComposedComponent: any) {
         const history = useHistory();
 
         useEffect(() => {
-            console.log(props.isAuthenticated);
             if (!props.isAuthenticated) {
                 history.push('/login');
             }
@@ -17,7 +16,6 @@ export default function (ComposedComponent: any) {
     }
 
     function mapStateToFunction(state: any) {
-        console.log(state);
         return {
             isAuthenticated: state.authentication.isAuthenticated
         };
