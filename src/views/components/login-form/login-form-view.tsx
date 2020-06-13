@@ -1,6 +1,6 @@
-import React from 'react';
 import {Typography, TextField, Button, makeStyles} from '@material-ui/core';
 import ILoginFormViewProps from './login-form-view-props';
+import React from 'react';
 
 const useStyles = makeStyles({
     form: {
