@@ -1,6 +1,6 @@
 import {composeWithDevTools} from 'redux-devtools-extension';
 import {applyMiddleware, createStore} from 'redux';
-import rootReducer from './root-reducer';
+import {rootReducer} from './index';
 import thunk from 'redux-thunk';
 
 export default (initialState: object, history: History) => {
