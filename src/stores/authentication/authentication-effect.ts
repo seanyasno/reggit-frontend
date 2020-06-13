@@ -1,8 +1,8 @@
 import AuthenticationAction from './authentication-action';
 import config from '../../conf/local-config.json';
+import jwtDecode from 'jwt-decode';
 import {Dispatch} from 'react';
 import axios from 'axios';
-import jwtDecode from 'jwt-decode';
 
 export default class AuthenticationEffect {
     static async login(data: any, dispatch: Dispatch<any>) {
@@ -14,7 +14,7 @@ export default class AuthenticationEffect {
         }
 
         const token = responseData.token;
-        localStorage.setItem('token', token);
+        localStorage.setItem('jwtToken', token);
         dispatch(AuthenticationAction.setCurrentUser(jwtDecode(token)))
         return await responseData;
     }
