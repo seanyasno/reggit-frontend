@@ -1,14 +1,25 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './views/App';
+import AuthenticationAction from './stores/authentication/authentication-action';
 import * as serviceWorker from './serviceWorker';
+import {Provider} from 'react-redux';
+import {rootStore} from './stores';
+import ReactDOM from 'react-dom';
+import App from './views/App';
+import React from 'react';
+import './index.css';
+
+const initialState = {};
+const store = rootStore(initialState);
+
+if (localStorage.jwtToken) {
+    // @ts-ignore
+    store.dispatch(AuthenticationAction.setCurrentUser(localStorage.jwtToken));
+}
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
+    <Provider store={store}>
+        <App/>,
+    </Provider>,
+    document.getElementById('root')
 );
 
 // If you want your app to work offline and load faster, you can change
