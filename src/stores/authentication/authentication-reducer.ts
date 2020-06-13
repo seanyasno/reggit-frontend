@@ -3,7 +3,7 @@ import {BaseReducer} from '../../models';
 
 export default class AuthenticationReducer extends BaseReducer {
     initialState = {
-        isAuthenticated: false,
+        isAuthenticated: undefined,
         user: {}
     };
 

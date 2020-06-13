@@ -7,7 +7,7 @@ export default function (ComposedComponent: any) {
         const history = useHistory();
 
         useEffect(() => {
-            if (!props.isAuthenticated) {
+            if (props.isAuthenticated !== undefined && !props.isAuthenticated) {
                 history.push('/login');
             }
         });
