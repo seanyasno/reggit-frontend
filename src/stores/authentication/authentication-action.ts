@@ -1,6 +1,6 @@
+import AuthenticationEffect from './authentication-effect';
 import {ActionUtility} from '../../utils';
 import {Dispatch} from 'react';
-import AuthenticationEffect from './authentication-effect';
 
 export default class AuthenticationAction {
     static LOGIN = 'AuthenticationAction.LOGIN';

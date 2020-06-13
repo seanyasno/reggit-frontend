@@ -1,5 +1,5 @@
-import {BaseReducer} from '../../models';
 import AuthenticationAction from './authentication-action';
+import {BaseReducer} from '../../models';
 
 export default class AuthenticationReducer extends BaseReducer {
     initialState = {
