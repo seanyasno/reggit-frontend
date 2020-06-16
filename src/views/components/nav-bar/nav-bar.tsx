@@ -35,7 +35,7 @@ const NavBar = (props: INavBarProps) => {
                         <Typography className={classes.linkText} variant='h6'>Login</Typography>
                     </Link>}
                     {isAuthenticated &&
-                    <Link onClick={() => logout} className={classes.link} to='/login'>
+                    <Link onClick={() => logout()} className={classes.link} to='/login'>
                         <Typography className={classes.linkText} variant='h6'>Logout</Typography>
                     </Link>}
                 </Toolbar>
