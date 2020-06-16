@@ -7,7 +7,7 @@ export default function (ComposedComponent: any) {
         const history = useHistory();
 
         useEffect(() => {
-            if (props.isAuthenticated !== undefined && !props.isAuthenticated) {
+            if (!localStorage.jwtToken || props.isAuthenticated === false) {
                 history.push('/login');
             }
         });
