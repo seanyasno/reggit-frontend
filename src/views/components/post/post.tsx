@@ -1,24 +1,23 @@
-import PostingAction from '../../../stores/posting/posting-action';
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
+import IPost from '../../../models/post';
 import IPostProps from './post-props';
-import {connect} from 'react-redux';
 
 const Post = (props: IPostProps) => {
     const {postId, getPostById} = props;
+    const [post, setPost] = useState<IPost>();
 
     useEffect(() => {
-        getPostById(postId).then(response => {
-            console.log(response);
-        });
-    })
+        getPostById(postId).then(postData => {
+            setPost(postData);
+        })
+    }, [postId, getPostById]);
 
     return(
         <div>
-            <div>Author:</div>
-            <div>Content:</div>
+            <div>Author: {post?.author}</div>
+            <div>Content: {post?.content}</div>
         </div>
     );
 }
 
-const getPostById = PostingAction.getPostById;
-export default connect(null, {getPostById})(Post);
+export default Post;
