@@ -1,6 +1,6 @@
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
+import {HomePage, LoginPage, PostPage} from './pages';
 import {requireAuthentication} from '../utils';
-import {HomePage, LoginPage} from './pages';
 import {NavBar} from './components';
 import React from 'react';
 import './App.css';
@@ -13,6 +13,7 @@ function App() {
             <Switch>
                 <Route path={'/'} exact component={requireAuthentication(HomePage)}/>
                 <Route path={'/login'} component={LoginPage}/>
+                <Route path={'/post/:postId'} component={PostPage}/>
             </Switch>
         </div>
     </Router>
