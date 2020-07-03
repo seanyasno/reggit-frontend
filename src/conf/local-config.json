@@ -8,7 +8,8 @@
     },
     "POST": {
       "CREATE": "/api/post/new",
-      "GET_POST_BY_ID": "/api/post/"
+      "GET_POST_BY_ID": "/api/post/",
+      "VOTE": "/api/post/"
     }
   }
 }

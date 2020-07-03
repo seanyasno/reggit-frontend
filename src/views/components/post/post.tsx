@@ -1,10 +1,31 @@
+import {Card, Typography, Divider, makeStyles} from '@material-ui/core';
 import React, {useEffect, useState} from 'react';
 import IPost from '../../../models/post';
 import IPostProps from './post-props';
+import {Voting} from '../index';
+
+const useStyles = makeStyles({
+    card: {
+        margin: 'auto',
+        padding: '0.6em 1em',
+        textAlign: 'start',
+        borderRadius: '1em'
+    },
+    author: {
+        fontWeight: 'lighter',
+    },
+    content: {
+        fontWeight: 'normal'
+    },
+    divider: {
+        margin: '0.5em 0'
+    }
+});
 
 const Post = (props: IPostProps) => {
     const {postId, getPostById} = props;
     const [post, setPost] = useState<IPost>();
+    const classes = useStyles(props);
 
     useEffect(() => {
         getPostById(postId).then(postData => {
@@ -13,10 +34,12 @@ const Post = (props: IPostProps) => {
     }, [postId, getPostById]);
 
     return(
-        <div>
-            <div>Author: {post?.author}</div>
-            <div>Content: {post?.content}</div>
-        </div>
+        <Card className={classes.card} elevation={3}>
+            <Typography className={classes.author} variant={'body2'}>{post?.author}</Typography>
+            <Typography className={classes.content} variant={'body1'}>{post?.content}</Typography>
+            <Divider className={classes.divider}/>
+            <Voting postId={postId} votes={post?.votes || 0}/>
+        </Card>
     );
 }
 
