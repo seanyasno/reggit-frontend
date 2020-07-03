@@ -5,6 +5,11 @@
     "AUTH": {
       "LOGIN": "/api/auth/login",
       "REGISTER": "/api/auth/register"
+    },
+    "POST": {
+      "CREATE": "/api/post/new",
+      "GET_POST_BY_ID": "/api/post/",
+      "VOTE": "/api/post/"
     }
   }
 }
