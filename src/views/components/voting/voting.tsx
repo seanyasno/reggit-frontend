@@ -19,8 +19,7 @@ const useStyles = makeStyles({
 });
 
 const Voting = (props: IVotingProps) => {
-    const {postId, votes}: IVotingProps = props;
-    const [currentVotes, setCurrentVotes] = useState(0);
+    const {postId, votes, setVotes}: IVotingProps = props;
     const classes = useStyles();
     const voteUrl = config.SERVER_URL + ':' + config.SERVER_PORT + config.ROUTES.POST.VOTE + '/';
 
@@ -28,17 +27,13 @@ const Voting = (props: IVotingProps) => {
         const url = voteUrl + postId + `/${voteState}`;
         const response = await axios.put(url);
         const responseData: IPost = await response.data;
-        setCurrentVotes(responseData.votes);
+        setVotes(responseData.votes);
     }
-
-    useEffect(() => {
-        setCurrentVotes(votes);
-    }, [votes]);
 
     return (
         <div className={classes.votingSection}>
             <ArrowUpward className={classes.upvote} onClick={() => vote(true)}/>
-            <Typography className={classes.votes} display={'inline'}>{currentVotes}</Typography>
+            <Typography className={classes.votes} display={'inline'}>{votes}</Typography>
             <ArrowDownward className={classes.downvote} onClick={() => vote(false)}/>
         </div>
     );
