@@ -1,6 +1,7 @@
 import AuthenticationAction from './stores/authentication/authentication-action';
 import * as serviceWorker from './serviceWorker';
 import {Provider} from 'react-redux';
+import jwtDecode from 'jwt-decode';
 import {rootStore} from './stores';
 import ReactDOM from 'react-dom';
 import App from './views/App';
@@ -12,7 +13,7 @@ const store = rootStore(initialState);
 
 if (localStorage.jwtToken) {
     // @ts-ignore
-    store.dispatch(AuthenticationAction.setCurrentUser(localStorage.jwtToken));
+    store.dispatch(AuthenticationAction.setCurrentUser(jwtDecode(localStorage.jwtToken)));
 }
 
 ReactDOM.render(
