@@ -72,6 +72,7 @@ const CreatePost = (props: ICreatePostProps) => {
                 placeholder={`What's on your mind, ${username}?`}
                 multiline
                 rows={6}
+                autoFocus={true}
                 rowsMax={15}
                 onChange={event => setContent(event.target.value)}/>
             <Button

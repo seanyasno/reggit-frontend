@@ -16,7 +16,7 @@ const useStyles = makeStyles({
     post: {
         margin: '1.5em 0 0 0'
     }
-})
+});
 
 const HomePage = () => {
     const [showDialog, setShowDialog] = useState(false);
