@@ -9,7 +9,8 @@
     "POST": {
       "CREATE": "/api/post/new",
       "GET_POST_BY_ID": "/api/post/",
-      "VOTE": "/api/post/"
+      "VOTE": "/api/post/",
+      "ALL_POSTS": "/api/post"
     }
   }
 }

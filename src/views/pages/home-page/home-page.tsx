@@ -1,34 +1,55 @@
-import React, {useState} from 'react';
-import {connect} from 'react-redux';
+import {Dialog, makeStyles, Card, Typography} from '@material-ui/core';
+import {CreatePost, Post} from '../../components';
+import React, {useEffect, useState} from 'react';
+import {useCardStyle} from '../../../constants';
+import IPost from '../../../models/post';
 import axios from 'axios';
 import config from '../../../conf/local-config.json';
 
-const HomePage = (props: any) => {
-    const {username} = props;
-    const [content, setContent] = useState('');
+const useStyles = makeStyles({
+    body: {
+        margin: '1em 0',
+    },
+    dialog: {
+        borderRadius: '1em',
+    }
+})
 
-    const uploadPost = async () => {
-        const url = config.SERVER_URL + ':' + config.SERVER_PORT + config.ROUTES.POST.CREATE;
-        const response = axios.post(url, {
-            author: username,
-            content
-        });
-        const responseData = await response;
-        console.log(responseData);
+const HomePage = () => {
+    const [showDialog, setShowDialog] = useState(false);
+    const classes = useStyles();
+    const cardStyle = useCardStyle();
+
+    const [posts, setPosts] = useState<Array<IPost>>([]);
+
+    useEffect(() => {
+        const fetchPosts = async () => {
+            const url = config.SERVER_URL + ':' + config.SERVER_PORT + config.ROUTES.POST.ALL_POSTS;
+            const posts = await axios.get(url);
+            setPosts(posts.data);
+        }
+
+        fetchPosts();
+    }, []);
+
+    const fetchPost = async (postId: string): Promise<IPost> => {
+        const url = config.SERVER_URL + ':' + config.SERVER_PORT + config.ROUTES.POST.GET_POST_BY_ID;
+        const response = await axios.get(url + postId);
+        return await response.data;
     }
 
     return (
-        <div>
-            <input onChange={event => setContent(event.target.value)}/>
-            <button onClick={() => uploadPost()}>upload</button>
+        <div className={classes.body}>
+            <Card elevation={2} className={cardStyle.style} style={{borderRadius: '10em'}} onClick={() => setShowDialog(true)}>
+                <Typography color={'textSecondary'}>What's on your mind?</Typography>
+            </Card>
+            <Dialog PaperProps={{className: classes.dialog}} open={showDialog} onClose={() => setShowDialog(false)}>
+                <CreatePost username={''} onCancel={() => setShowDialog(false)}/>
+            </Dialog>
+            {/*{posts.map(post => (<Post postId={post.id} getPostById={}))}*/}
         </div>
     );
 }
 
-const mapStateToProps = (state: any) => {
-    return {
-        username: state.authentication.user.username
-    };
-}
 
-export default connect(mapStateToProps, undefined)(HomePage);
+export default HomePage;

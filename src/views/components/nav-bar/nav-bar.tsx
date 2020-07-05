@@ -25,7 +25,7 @@ const NavBar = (props: INavBarProps) => {
 
     return (
         <div>
-            <AppBar position={'static'}>
+            <AppBar elevation={0} position={'static'}>
                 <Toolbar>
                     <Link className={classes.link} to='/'>
                         <Typography className={classes.logo} variant='h5'>Reggit</Typography>
