@@ -43,7 +43,7 @@ const useStyles = makeStyles({
 });
 
 const CreatePost = (props: ICreatePostProps) => {
-    const {username, onCancel} = props;
+    const {username, onCancel, onDone} = props;
     const [content, setContent] = useState('');
     const classes = useStyles(props);
     const cardStyle = useCardStyle(props);
@@ -55,7 +55,8 @@ const CreatePost = (props: ICreatePostProps) => {
             content
         });
         const responseData = await response;
-        console.log(responseData);
+        const newPost = responseData.data;
+        onDone(newPost);
     }
 
     return (

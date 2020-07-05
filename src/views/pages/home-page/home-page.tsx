@@ -29,10 +29,14 @@ const HomePage = () => {
         const url = config.SERVER_URL + ':' + config.SERVER_PORT + config.ROUTES.POST.ALL_POSTS;
         axios.get(url).then(response => {
             const posts = response.data;
-            console.log(posts);
             setPosts(posts);
         });
     }, []);
+
+    const onNewCreatedPost = (newPost: IPost) => {
+        setShowDialog(false);
+        setPosts([...posts, newPost]);
+    }
 
     return (
         <div className={classes.body}>
@@ -41,7 +45,7 @@ const HomePage = () => {
                 <Typography color={'textSecondary'}>What's on your mind?</Typography>
             </Card>
             <Dialog PaperProps={{className: classes.dialog}} open={showDialog} onClose={() => setShowDialog(false)}>
-                <CreatePost username={''} onCancel={() => setShowDialog(false)}/>
+                <CreatePost username={''} onCancel={() => setShowDialog(false)} onDone={onNewCreatedPost    }/>
             </Dialog>
             {
                 posts.map((post, index) => (
