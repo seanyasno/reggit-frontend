@@ -1,10 +1,10 @@
 import {Dialog, makeStyles, Card, Typography} from '@material-ui/core';
+import config from '../../../conf/local-config.json';
 import {CreatePost, Post} from '../../components';
 import React, {useEffect, useState} from 'react';
 import {useCardStyle} from '../../../constants';
 import IPost from '../../../models/post';
 import axios from 'axios';
-import config from '../../../conf/local-config.json';
 
 const useStyles = makeStyles({
     body: {
@@ -12,6 +12,9 @@ const useStyles = makeStyles({
     },
     dialog: {
         borderRadius: '1em',
+    },
+    post: {
+        margin: '1.5em 0 0 0'
     }
 })
 
@@ -23,30 +26,30 @@ const HomePage = () => {
     const [posts, setPosts] = useState<Array<IPost>>([]);
 
     useEffect(() => {
-        const fetchPosts = async () => {
-            const url = config.SERVER_URL + ':' + config.SERVER_PORT + config.ROUTES.POST.ALL_POSTS;
-            const posts = await axios.get(url);
-            setPosts(posts.data);
-        }
-
-        fetchPosts();
+        const url = config.SERVER_URL + ':' + config.SERVER_PORT + config.ROUTES.POST.ALL_POSTS;
+        axios.get(url).then(response => {
+            const posts = response.data;
+            console.log(posts);
+            setPosts(posts);
+        });
     }, []);
-
-    const fetchPost = async (postId: string): Promise<IPost> => {
-        const url = config.SERVER_URL + ':' + config.SERVER_PORT + config.ROUTES.POST.GET_POST_BY_ID;
-        const response = await axios.get(url + postId);
-        return await response.data;
-    }
 
     return (
         <div className={classes.body}>
-            <Card elevation={2} className={cardStyle.style} style={{borderRadius: '10em'}} onClick={() => setShowDialog(true)}>
+            <Card elevation={2} className={cardStyle.style} style={{borderRadius: '10em'}}
+                  onClick={() => setShowDialog(true)}>
                 <Typography color={'textSecondary'}>What's on your mind?</Typography>
             </Card>
             <Dialog PaperProps={{className: classes.dialog}} open={showDialog} onClose={() => setShowDialog(false)}>
                 <CreatePost username={''} onCancel={() => setShowDialog(false)}/>
             </Dialog>
-            {/*{posts.map(post => (<Post postId={post.id} getPostById={}))}*/}
+            {
+                posts.map((post, index) => (
+                    <div className={classes.post} key={index}>
+                        <Post canOpenInNewPage={true} postId={post.id} postData={post}/>
+                    </div>
+                ))
+            }
         </div>
     );
 }

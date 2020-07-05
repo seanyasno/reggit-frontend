@@ -18,7 +18,7 @@ const PostPage = () => {
     return (
         <div>
             <div className={classes.post}>
-                <Post postId={params.postId || ''}/>
+                <Post canOpenInNewPage={false} postId={params.postId || ''} postData={undefined}/>
             </div>
         </div>
     );
