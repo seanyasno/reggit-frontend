@@ -1,7 +1,8 @@
 import IPost from '../../../models/post';
+import IUser from '../../../models/user';
 
 export default interface ICreatePostProps {
-    username: string;
+    user: IUser | undefined;
     onCancel: () => void;
     onDone: (newPost: IPost) => void;
 }

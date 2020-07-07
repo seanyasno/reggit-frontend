@@ -25,18 +25,15 @@ const Post = (props: IPostProps) => {
     const classes = useStyles(props);
     const history = useHistory();
     const cardStyle = useCardStyle(props);
-    const [post, setPost] = useState<IPost>({
-        id: '',
-        author: '',
-        content: '',
-        votes: 0
-    });
+    const [post, setPost] = useState<IPost>();
 
     const setVotes = (updatedVotes: number) => {
-        setPost({
-            ...post,
-            votes: updatedVotes
-        });
+        if (post) {
+            setPost({
+                ...post,
+                votes: updatedVotes
+            });
+        }
     }
 
     const openPostInNewPage = () => {
@@ -60,11 +57,11 @@ const Post = (props: IPostProps) => {
     return(
         <Card className={cardStyle.style} elevation={3}>
             <div onClick={() => openPostInNewPage()}>
-                <Typography className={classes.author} variant={'body2'}>{post?.author}</Typography>
+                <Typography className={classes.author} variant={'body2'}>{post?.user.profile.firstName} {post?.user.profile.lastName}</Typography>
                 <Typography className={classes.content} variant={'body1'}>{post?.content}</Typography>
             </div>
             <Divider className={classes.divider}/>
-            <Voting postId={post.id} votes={post?.votes || 0} setVotes={setVotes}/>
+            <Voting postId={post?.id || ''} votes={post?.votes || 0} setVotes={setVotes}/>
         </Card>
     );
 }

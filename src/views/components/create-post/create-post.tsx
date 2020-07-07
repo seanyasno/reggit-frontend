@@ -43,15 +43,19 @@ const useStyles = makeStyles({
 });
 
 const CreatePost = (props: ICreatePostProps) => {
-    const {username, onCancel, onDone} = props;
+    const {user, onCancel, onDone} = props;
     const [content, setContent] = useState('');
     const classes = useStyles(props);
     const cardStyle = useCardStyle(props);
 
     const uploadPost = async () => {
+        if (!user) {
+            return;
+        }
+
         const url = config.SERVER_URL + ':' + config.SERVER_PORT + config.ROUTES.POST.CREATE;
         const response = axios.post(url, {
-            author: username,
+            userId: user.id,
             content
         });
         const responseData = await response;
@@ -69,7 +73,7 @@ const CreatePost = (props: ICreatePostProps) => {
             <Divider className={classes.divider}/>
             <InputBase
                 className={classes.contentInput}
-                placeholder={`What's on your mind, ${username}?`}
+                placeholder={`What's on your mind, ${user?.profile.firstName}?`}
                 multiline
                 rows={6}
                 autoFocus={true}
@@ -85,9 +89,7 @@ const CreatePost = (props: ICreatePostProps) => {
 }
 
 const mapStateToProps = (state: any) => {
-    return {
-        username: state.authentication.user.username
-    };
+    return {user: state.authentication.user};
 }
 
 export default connect(mapStateToProps, undefined)(CreatePost);
