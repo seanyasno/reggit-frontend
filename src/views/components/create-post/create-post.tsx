@@ -42,7 +42,7 @@ const useStyles = makeStyles({
     }
 });
 
-const CreatePost = (props: ICreatePostProps) => {
+const CreatePost: React.FunctionComponent<ICreatePostProps> = (props) => {
     const {user, onCancel, onDone} = props;
     const [content, setContent] = useState('');
     const classes = useStyles(props);
