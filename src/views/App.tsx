@@ -13,7 +13,7 @@ function App() {
             <Switch>
                 <Route path={'/'} exact component={requireAuthentication(HomePage)}/>
                 <Route path={'/login'} component={LoginPage}/>
-                <Route path={'/post/:postId'} component={PostPage}/>
+                <Route path={'/post/:postId'} component={requireAuthentication(PostPage)}/>
             </Switch>
         </div>
     </Router>

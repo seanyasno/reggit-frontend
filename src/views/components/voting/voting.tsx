@@ -1,9 +1,9 @@
 import {ArrowUpward, ArrowDownward} from '@material-ui/icons';
 import {Typography, makeStyles} from '@material-ui/core';
 import config from '../../../conf/local-config.json';
-import React, {useEffect, useState} from 'react';
 import IVotingProps from './voting-props';
 import IPost from '../../../models/post';
+import React from 'react';
 import axios from 'axios';
 
 const useStyles = makeStyles({
