@@ -108,9 +108,7 @@ const Post: React.FunctionComponent<IPostProps> = (props) => {
                         anchorOrigin={{vertical: "bottom", horizontal: "center"}}
                         transformOrigin={{vertical: "top", horizontal: "center"}}
                         onClose={() => setAnchorEl(null)}
-                        anchorEl={anchorEl}
-                    >
-                        <MenuItem>Edit</MenuItem>
+                        anchorEl={anchorEl}>
                         <MenuItem onClick={() => removePost()}>Delete</MenuItem>
                     </Menu>
                 </div>
