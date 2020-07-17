@@ -97,7 +97,7 @@ const Post: React.FunctionComponent<IPostProps> = (props) => {
         <Card className={cardStyle.style} elevation={3}>
             <div className={classes.topSection}>
                 <Typography className={classes.author}
-                            variant={'body2'}>{post?.user.profile.firstName} {post?.user.profile.lastName}</Typography>
+                            variant={'body2'}>{post?.user?.profile.firstName} {post?.user?.profile.lastName}</Typography>
                 <div>
                     {userId === post?.userId && <MoreVert aria-controls={'options-menu'} aria-haspopup={'true'} className={classes.showMore}
                               onClick={handleClick}/>}
@@ -108,9 +108,7 @@ const Post: React.FunctionComponent<IPostProps> = (props) => {
                         anchorOrigin={{vertical: "bottom", horizontal: "center"}}
                         transformOrigin={{vertical: "top", horizontal: "center"}}
                         onClose={() => setAnchorEl(null)}
-                        anchorEl={anchorEl}
-                    >
-                        <MenuItem>Edit</MenuItem>
+                        anchorEl={anchorEl}>
                         <MenuItem onClick={() => removePost()}>Delete</MenuItem>
                     </Menu>
                 </div>
