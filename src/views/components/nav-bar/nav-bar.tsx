@@ -39,7 +39,7 @@ const NavBar = (props: INavBarProps) => {
                         <Link className={classes.link} to='/'>
                             <Typography className={classes.logo} variant='h5'>Reggit</Typography>
                         </Link>
-                        <Typography className={classes.title} variant={'h6'}>Hello, {firstName}</Typography>
+                        {isAuthenticated && <Typography className={classes.title} variant={'h6'}>Hello, {firstName}</Typography>}
                     </div>
                     {!isAuthenticated &&
                     <Link className={classes.link} to='/login'>
