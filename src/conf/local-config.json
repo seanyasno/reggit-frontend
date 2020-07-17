@@ -11,7 +11,8 @@
       "GET_POST_BY_ID": "/api/post/",
       "VOTE": "/api/post/",
       "ALL_POSTS": "/api/post",
-      "DELETE_POST": "/api/post/delete/"
+      "DELETE_POST": "/api/post/delete/",
+      "GET_VOTE_STATE": "/api/post/"
     }
   }
 }
