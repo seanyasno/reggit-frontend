@@ -7,6 +7,8 @@ import {makeStyles} from '@material-ui/core';
 import {useParams} from 'react-router-dom';
 import {Comment} from '../../components';
 import axios from 'axios';
+import CreatePost from '../../components/create-post/create-post';
+import CreateComment from '../../components/create-comment/create-comment';
 
 const useStyles = makeStyles({
     post: {
@@ -36,7 +38,8 @@ const PostPage = () => {
         <div>
             <div className={classes.post}>
                 <Post canOpenInNewPage={false} postId={postId || ''} postData={undefined}/>
-                {comments?.map(comment => (<Comment comment={comment}/>))}
+                <CreateComment postId={postId || ''}/>
+                {comments?.map((comment, index) => (<Comment key={index} comment={comment}/>))}
             </div>
         </div>
     );

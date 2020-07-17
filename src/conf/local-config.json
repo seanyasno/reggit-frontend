@@ -15,7 +15,7 @@
       "GET_VOTE_STATE": "/api/post/"
     },
     "COMMENT": {
-      "CREATE": "/api/comment/new",
+      "CREATE": "/api/comment/new/",
       "GET_ALL_BY_POST_ID": "/api/comment/"
     }
   }
