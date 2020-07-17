@@ -1,3 +1,4 @@
+import CreateComment from '../../components/create-comment/create-comment';
 import config from '../../../conf/local-config.json';
 import IPostPageParams from './post-page-params';
 import React, {useEffect, useState} from 'react';
@@ -7,8 +8,6 @@ import {makeStyles} from '@material-ui/core';
 import {useParams} from 'react-router-dom';
 import {Comment} from '../../components';
 import axios from 'axios';
-import CreatePost from '../../components/create-post/create-post';
-import CreateComment from '../../components/create-comment/create-comment';
 
 const useStyles = makeStyles({
     post: {

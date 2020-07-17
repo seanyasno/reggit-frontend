@@ -37,6 +37,8 @@ const CreateComment: React.FunctionComponent<ICreateCommentProps> = (props) => {
             userId: user?.id,
             content
         });
+        setContent('');
+        window.location.reload();
     }
 
     return (
