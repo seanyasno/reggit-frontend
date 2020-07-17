@@ -1,8 +1,12 @@
+import config from '../../../conf/local-config.json';
 import IPostPageParams from './post-page-params';
+import React, {useEffect, useState} from 'react';
+import IComment from '../../../models/comment';
+import Post from '../../components/post/post';
 import {makeStyles} from '@material-ui/core';
 import {useParams} from 'react-router-dom';
-import {Post} from '../../components';
-import React from 'react';
+import {Comment} from '../../components';
+import axios from 'axios';
 
 const useStyles = makeStyles({
     post: {
@@ -14,11 +18,25 @@ const useStyles = makeStyles({
 const PostPage = () => {
     const classes = useStyles();
     const params = useParams<IPostPageParams>();
+    const {postId} = params;
+    const [comments=[], setComments] = useState<Array<IComment>>();
+
+    useEffect(() => {
+        const fetchComments = async () => {
+            const url = config.SERVER_URL + ':' + config.SERVER_PORT + config.ROUTES.COMMENT.GET_ALL_BY_POST_ID + postId;
+            const response = await axios.get(url);
+            return response.data;
+        }
+        fetchComments().then(comments => {
+            setComments(comments);
+        });
+    }, [postId]);
 
     return (
         <div>
             <div className={classes.post}>
-                <Post canOpenInNewPage={false} postId={params.postId || ''} postData={undefined}/>
+                <Post canOpenInNewPage={false} postId={postId || ''} postData={undefined}/>
+                {comments?.map(comment => (<Comment comment={comment}/>))}
             </div>
         </div>
     );
