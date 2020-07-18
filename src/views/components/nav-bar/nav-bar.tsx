@@ -5,6 +5,7 @@ import {IState} from '../../../stores';
 import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
 import React from 'react';
+import logo from '../../../pictures/logo.svg';
 
 const useStyles = makeStyles({
     toolbar: {
@@ -14,13 +15,16 @@ const useStyles = makeStyles({
     logo: {
         fontWeight: 'bold',
         color: 'white',
+        height: '3em',
+        alignSelf: 'center',
     },
     title: {
         fontWeight: 'lighter',
         margin: '0 1em',
+        alignSelf: 'center',
     },
     link: {
-        textDecoration: 'none'
+        textDecoration: 'none',
     },
     linkText: {
         color: 'white',
@@ -37,7 +41,7 @@ const NavBar = (props: INavBarProps) => {
                 <Toolbar className={classes.toolbar}>
                     <div style={{display: 'flex'}}>
                         <Link className={classes.link} to='/'>
-                            <Typography className={classes.logo} variant='h5'>Reggit</Typography>
+                            <img className={classes.logo} src={logo} alt={'Reggit'}/>
                         </Link>
                         {isAuthenticated && <Typography className={classes.title} variant={'h6'}>Hello, {firstName}</Typography>}
                     </div>
