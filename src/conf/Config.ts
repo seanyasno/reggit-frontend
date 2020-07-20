@@ -2,9 +2,9 @@ import localConfig from './local-config.json';
 
 export default class Config {
     private static config: Config;
-    private static loadLocalConfiguration: boolean = true;
+    private loadLocalConfiguration: boolean = true;
 
-    static getInstance(): Config {
+    public static getInstance() {
         if (!this.config) {
             this.config = new Config();
         }
@@ -12,7 +12,7 @@ export default class Config {
         return this.config;
     }
 
-    static getConfiguration() {
+    public getConfiguration() {
         if (this.loadLocalConfiguration) {
             return localConfig;
         }
@@ -20,7 +20,7 @@ export default class Config {
         return localConfig;
     }
 
-    static getServerUrl(): string {
+    public getServerUrl(): string {
         return this.getConfiguration().SERVER_URL + ':' + this.getConfiguration().SERVER_PORT;
     }
 }

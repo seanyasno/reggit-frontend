@@ -1,12 +1,13 @@
 import AuthenticationAction from './authentication-action';
-import config from '../../conf/local-config.json';
+import Config from '../../conf/Config';
 import jwtDecode from 'jwt-decode';
 import {Dispatch} from 'react';
 import axios from 'axios';
 
 export default class AuthenticationEffect {
     static async login(data: any, dispatch: Dispatch<any>) {
-        const response = await axios.post(`${config.SERVER_URL}:${config.SERVER_PORT}${config.ROUTES.AUTH.LOGIN}`, {...data});
+        const url = Config.getInstance().getServerUrl() + Config.getInstance().getConfiguration().ROUTES.AUTH.LOGIN;
+        const response = await axios.post(url, {...data});
         const responseData = await response.data;
 
         if (responseData.status === 401) {

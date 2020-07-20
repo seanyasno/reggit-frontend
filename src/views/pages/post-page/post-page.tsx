@@ -1,11 +1,11 @@
 import CreateComment from '../../components/create-comment/create-comment';
-import config from '../../../conf/local-config.json';
 import IPostPageParams from './post-page-params';
 import React, {useEffect, useState} from 'react';
 import IComment from '../../../models/comment';
 import Post from '../../components/post/post';
 import {makeStyles} from '@material-ui/core';
 import {useParams} from 'react-router-dom';
+import Config from '../../../conf/Config';
 import {Comment} from '../../components';
 import axios from 'axios';
 
@@ -24,7 +24,7 @@ const PostPage = () => {
 
     useEffect(() => {
         const fetchComments = async () => {
-            const url = config.SERVER_URL + ':' + config.SERVER_PORT + config.ROUTES.COMMENT.GET_ALL_BY_POST_ID + postId;
+            const url = Config.getInstance().getServerUrl() + Config.getInstance().getConfiguration().ROUTES.COMMENT.GET_ALL_BY_POST_ID + postId;
             const response = await axios.get(url);
             return response.data;
         }

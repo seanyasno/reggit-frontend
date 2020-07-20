@@ -1,10 +1,10 @@
 import {makeStyles, Button, Card, TextField} from '@material-ui/core';
 import ICreateCommentProps from './create-comment-props';
-import config from '../../../conf/local-config.json';
 import {useCardStyle} from '../../../constants';
 import IState from '../../../stores/state';
-import {connect} from 'react-redux';
+import Config from '../../../conf/Config';
 import React, {useState} from 'react';
+import {connect} from 'react-redux';
 import axios from 'axios';
 import _ from 'lodash';
 
@@ -32,7 +32,7 @@ const CreateComment: React.FunctionComponent<ICreateCommentProps> = (props) => {
             return;
         }
 
-        const url = config.SERVER_URL + ':' + config.SERVER_PORT + config.ROUTES.COMMENT.CREATE + postId;
+        const url = Config.getInstance().getServerUrl() + Config.getInstance().getConfiguration().ROUTES.COMMENT.CREATE + postId;
         await axios.post(url, {
             userId: user?.id,
             content

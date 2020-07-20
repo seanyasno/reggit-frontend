@@ -1,9 +1,9 @@
 import {Card, Typography, Divider, makeStyles, Menu, MenuItem} from '@material-ui/core';
-import config from '../../../conf/local-config.json';
 import React, {useEffect, useState} from 'react';
 import {useCardStyle} from '../../../constants';
 import {useHistory} from 'react-router-dom';
 import {MoreVert} from '@material-ui/icons';
+import Config from '../../../conf/Config';
 import IPost from '../../../models/post';
 import {IState} from '../../../stores';
 import IPostProps from './post-props';
@@ -58,7 +58,7 @@ const Post: React.FunctionComponent<IPostProps> = (props) => {
     }
 
     const removePost = async () => {
-        const url = config.SERVER_URL + ':' + config.SERVER_PORT + config.ROUTES.POST.DELETE_POST + postId;
+        const url = Config.getInstance().getServerUrl() + Config.getInstance().getConfiguration().ROUTES.POST.DELETE_POST + postId;
         try {
             await axios.delete(url);
             setAnchorEl(null);
@@ -85,7 +85,7 @@ const Post: React.FunctionComponent<IPostProps> = (props) => {
         if (postData) {
             setPost(postData);
         } else {
-            const url = config.SERVER_URL + ':' + config.SERVER_PORT + config.ROUTES.POST.GET_POST_BY_ID;
+            const url = Config.getInstance().getServerUrl() + Config.getInstance().getConfiguration().ROUTES.POST.GET_POST_BY_ID;
             axios.get(url + postId).then(response => {
                 const post = response.data;
                 setPost(post);
