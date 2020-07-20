@@ -1,8 +1,8 @@
 import {Dialog, makeStyles, Card, Typography} from '@material-ui/core';
-import config from '../../../conf/local-config.json';
 import {CreatePost, Post} from '../../components';
 import React, {useEffect, useState} from 'react';
 import {useCardStyle} from '../../../constants';
+import Config from '../../../conf/Config';
 import IPost from '../../../models/post';
 import axios from 'axios';
 
@@ -26,7 +26,7 @@ const HomePage = () => {
     const [posts, setPosts] = useState<Array<IPost>>([]);
 
     useEffect(() => {
-        const url = config.SERVER_URL + ':' + config.SERVER_PORT + config.ROUTES.POST.ALL_POSTS;
+        const url = Config.getInstance().getServerUrl() + Config.getInstance().getConfiguration().ROUTES.POST.ALL_POSTS;
         axios.get(url).then(response => {
             const posts = response.data;
             setPosts(posts);

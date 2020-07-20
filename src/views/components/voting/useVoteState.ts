@@ -1,4 +1,4 @@
-import config from '../../../conf/local-config.json';
+import Config from '../../../conf/Config';
 import {useState} from 'react';
 import axios from 'axios';
 
@@ -7,7 +7,7 @@ const useVoteState = (postId: string, userId: string): number => {
 
     if (!postId) return 0;
 
-    const url = config.SERVER_URL + ':' + config.SERVER_PORT + config.ROUTES.POST.GET_VOTE_STATE + postId + '/voteState';
+    const url = Config.getInstance().getServerUrl() + Config.getInstance().getConfiguration().ROUTES.POST.GET_VOTE_STATE + postId + '/voteState';
     console.log(url);
     axios.get(url, {
         headers: {

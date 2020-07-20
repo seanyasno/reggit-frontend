@@ -1,8 +1,8 @@
 import {ArrowUpward, ArrowDownward} from '@material-ui/icons';
 import {Typography, makeStyles} from '@material-ui/core';
-import config from '../../../conf/local-config.json';
 import React, {useEffect, useState} from 'react';
 import IVotingProps from './voting-props';
+import Config from '../../../conf/Config';
 import IPost from '../../../models/post';
 import {IState} from '../../../stores';
 import {connect} from 'react-redux';
@@ -28,12 +28,12 @@ const Voting = (props: IVotingProps) => {
     const {postId, votes, setVotes, userId}: IVotingProps = props;
     const [voteState, setVoteState] = useState(0);
     const classes = useStyles();
-    const voteUrl = config.SERVER_URL + ':' + config.SERVER_PORT + config.ROUTES.POST.VOTE + '/';
+    const voteUrl = Config.getInstance().getServerUrl() + Config.getInstance().getConfiguration().ROUTES.POST.VOTE + '/';
 
     const fetchVoteState = async () => {
         if (!postId) return Promise.reject();
 
-        const url = config.SERVER_URL + ':' + config.SERVER_PORT + config.ROUTES.POST.GET_VOTE_STATE + postId + '/voteState';
+        const url = Config.getInstance().getServerUrl() + Config.getInstance().getConfiguration().ROUTES.POST.GET_VOTE_STATE + postId + '/voteState';
         const response = await axios.get(url, {
             headers: {
                 user_id: userId

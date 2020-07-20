@@ -1,7 +1,7 @@
 import {makeStyles, Card, Button, Divider, Typography, InputBase, Fab} from '@material-ui/core';
-import config from '../../../conf/local-config.json';
 import ICreatePostProps from './create-post-props';
 import {useCardStyle} from '../../../constants';
+import Config from '../../../conf/Config';
 import {Clear} from '@material-ui/icons';
 import React, {useState} from 'react';
 import {connect} from 'react-redux';
@@ -53,7 +53,7 @@ const CreatePost: React.FunctionComponent<ICreatePostProps> = (props) => {
             return;
         }
 
-        const url = config.SERVER_URL + ':' + config.SERVER_PORT + config.ROUTES.POST.CREATE;
+        const url = Config.getInstance().getServerUrl() + Config.getInstance().getConfiguration().ROUTES.POST.CREATE;
         const response = axios.post(url, {
             userId: user.id,
             content
