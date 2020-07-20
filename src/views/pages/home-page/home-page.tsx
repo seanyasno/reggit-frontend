@@ -2,9 +2,9 @@ import {Dialog, makeStyles, Card, Typography} from '@material-ui/core';
 import {CreatePost, Post} from '../../components';
 import React, {useEffect, useState} from 'react';
 import {useCardStyle} from '../../../constants';
+import Config from '../../../conf/Config';
 import IPost from '../../../models/post';
 import axios from 'axios';
-import Config from '../../../conf/Config';
 
 const useStyles = makeStyles({
     body: {

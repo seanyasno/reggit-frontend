@@ -2,11 +2,11 @@ import {ArrowUpward, ArrowDownward} from '@material-ui/icons';
 import {Typography, makeStyles} from '@material-ui/core';
 import React, {useEffect, useState} from 'react';
 import IVotingProps from './voting-props';
+import Config from '../../../conf/Config';
 import IPost from '../../../models/post';
 import {IState} from '../../../stores';
 import {connect} from 'react-redux';
 import axios from 'axios';
-import Config from '../../../conf/Config';
 
 const useStyles = makeStyles({
     votingSection: {
