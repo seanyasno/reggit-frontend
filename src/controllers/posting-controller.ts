@@ -20,4 +20,10 @@ export default class PostingController {
         const response = await axios.get(PostingController.GET_ALL_POSTS_URL);
         return response.data;
     }
+
+    static async getPostById(postId: string) {
+        console.log(PostingController.GET_POST_BY_ID_URL + postId);
+        const response = await axios.get(PostingController.GET_POST_BY_ID_URL + postId);
+        return response.data;
+    }
 }

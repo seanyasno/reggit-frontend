@@ -10,6 +10,7 @@ import IPostProps from './post-props';
 import {connect} from 'react-redux';
 import {Voting} from '../index';
 import axios from 'axios';
+import {PostingController} from '../../../controllers';
 
 const useStyles = makeStyles({
     topSection: {
@@ -85,9 +86,7 @@ const Post: React.FunctionComponent<IPostProps> = (props) => {
         if (postData) {
             setPost(postData);
         } else {
-            const url = Config.getInstance().getServerUrl() + Config.getInstance().getConfiguration().ROUTES.POST.GET_POST_BY_ID;
-            axios.get(url + postId).then(response => {
-                const post = response.data;
+            PostingController.getPostById(postId).then(post => {
                 setPost(post);
             });
         }
