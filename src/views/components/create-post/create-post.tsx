@@ -4,8 +4,11 @@ import {useCardStyle} from '../../../constants';
 import Config from '../../../conf/Config';
 import {Clear} from '@material-ui/icons';
 import React, {useState} from 'react';
-import {connect} from 'react-redux';
+import {connect, useSelector} from 'react-redux';
 import axios from 'axios';
+import {PostingController} from '../../../controllers';
+import IState from '../../../stores/state';
+import IUser from '../../../models/user';
 
 const useStyles = makeStyles({
     titleSection: {
@@ -52,14 +55,7 @@ const CreatePost: React.FunctionComponent<ICreatePostProps> = (props) => {
         if (!user) {
             return;
         }
-
-        const url = Config.getInstance().getServerUrl() + Config.getInstance().getConfiguration().ROUTES.POST.CREATE;
-        const response = axios.post(url, {
-            userId: user.id,
-            content
-        });
-        const responseData = await response;
-        const newPost = responseData.data;
+        const newPost = await PostingController.createNewPost(user.id, content);
         onDone(newPost);
     }
 
