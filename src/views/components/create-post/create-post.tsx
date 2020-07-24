@@ -1,14 +1,10 @@
 import {makeStyles, Card, Button, Divider, Typography, InputBase, Fab} from '@material-ui/core';
+import {PostingController} from '../../../controllers';
 import ICreatePostProps from './create-post-props';
 import {useCardStyle} from '../../../constants';
-import Config from '../../../conf/Config';
 import {Clear} from '@material-ui/icons';
 import React, {useState} from 'react';
-import {connect, useSelector} from 'react-redux';
-import axios from 'axios';
-import {PostingController} from '../../../controllers';
-import IState from '../../../stores/state';
-import IUser from '../../../models/user';
+import {connect} from 'react-redux';
 
 const useStyles = makeStyles({
     titleSection: {
