@@ -17,6 +17,11 @@
     "COMMENT": {
       "CREATE": "/api/comment/new/",
       "GET_ALL_BY_POST_ID": "/api/comment/"
+    },
+    "FORUM": {
+      "GET_ALL_FORUMS": "/api/forum/getAllForums",
+      "GET_FORUM_BY_ID": "/api/forum/getForumById/",
+      "CREATE": "/api/forum/createForum"
     }
   }
 }
