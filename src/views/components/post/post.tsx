@@ -1,16 +1,14 @@
 import {Card, Typography, Divider, makeStyles, Menu, MenuItem} from '@material-ui/core';
+import {PostingController} from '../../../controllers';
 import React, {useEffect, useState} from 'react';
 import {useCardStyle} from '../../../constants';
 import {useHistory} from 'react-router-dom';
 import {MoreVert} from '@material-ui/icons';
-import Config from '../../../conf/Config';
 import IPost from '../../../models/post';
 import {IState} from '../../../stores';
 import IPostProps from './post-props';
 import {connect} from 'react-redux';
 import {Voting} from '../index';
-import axios from 'axios';
-import {PostingController} from '../../../controllers';
 
 const useStyles = makeStyles({
     topSection: {
@@ -59,9 +57,8 @@ const Post: React.FunctionComponent<IPostProps> = (props) => {
     }
 
     const removePost = async () => {
-        const url = Config.getInstance().getServerUrl() + Config.getInstance().getConfiguration().ROUTES.POST.DELETE_POST + postId;
         try {
-            await axios.delete(url);
+            await PostingController.removePostById(postId);
             setAnchorEl(null);
             setPost({
                 id: '',

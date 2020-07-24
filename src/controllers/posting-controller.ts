@@ -22,8 +22,12 @@ export default class PostingController {
     }
 
     static async getPostById(postId: string) {
-        console.log(PostingController.GET_POST_BY_ID_URL + postId);
         const response = await axios.get(PostingController.GET_POST_BY_ID_URL + postId);
+        return response.data;
+    }
+
+    static async removePostById(postId: string) {
+        const response = await axios.delete(PostingController.DELETE_POST_URL + postId);
         return response.data;
     }
 }
