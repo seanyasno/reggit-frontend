@@ -1,27 +1,25 @@
-import Config from '../../../conf/Config';
-import {useState} from 'react';
-import axios from 'axios';
+import {VotingController} from '../../../controllers';
+import {useEffect, useState} from 'react';
 
-const useVoteState = (postId: string, userId: string): number => {
+const useVoteState = (postId: string, userId: string | undefined): number => {
     const [voteState, setVoteState] = useState(0);
 
-    if (!postId) return 0;
+    const fetchVoteState = async (): Promise<number> => {
+        if (!postId || !userId) return Promise.reject();
 
-    const url = Config.getInstance().getServerUrl() + Config.getInstance().getConfiguration().ROUTES.POST.GET_VOTE_STATE + postId + '/voteState';
-    console.log(url);
-    axios.get(url, {
-        headers: {
-            user_id: userId
-        }
-    }).then(response => {
-        if (response.data) {
-            setVoteState(response.data.state);
+        const voteState = await VotingController.getVoteState(postId, userId);
+        if (voteState) {
+            return voteState;
         }
 
-        return voteState;
+        return 0;
+    }
+
+    useEffect(() => {
+        fetchVoteState().then(voteState => setVoteState(voteState));
     });
 
-    return 0;
+    return voteState;
 }
 
 export default useVoteState;

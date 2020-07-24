@@ -1,12 +1,11 @@
 import {ArrowUpward, ArrowDownward} from '@material-ui/icons';
 import {Typography, makeStyles} from '@material-ui/core';
-import React, {useEffect, useState} from 'react';
+import {VotingController} from '../../../controllers';
+import useVoteState from './useVoteState';
 import IVotingProps from './voting-props';
-import Config from '../../../conf/Config';
-import IPost from '../../../models/post';
 import {IState} from '../../../stores';
 import {connect} from 'react-redux';
-import axios from 'axios';
+import React from 'react';
 
 const useStyles = makeStyles({
     votingSection: {
@@ -24,42 +23,16 @@ const useStyles = makeStyles({
     }
 });
 
-const Voting = (props: IVotingProps) => {
+const Voting: React.FunctionComponent<IVotingProps> = (props) => {
     const {postId, votes, setVotes, userId}: IVotingProps = props;
-    const [voteState, setVoteState] = useState(0);
+    const voteState = useVoteState(postId, userId);
     const classes = useStyles();
-    const voteUrl = Config.getInstance().getServerUrl() + Config.getInstance().getConfiguration().ROUTES.POST.VOTE + '/';
-
-    const fetchVoteState = async () => {
-        if (!postId) return Promise.reject();
-
-        const url = Config.getInstance().getServerUrl() + Config.getInstance().getConfiguration().ROUTES.POST.GET_VOTE_STATE + postId + '/voteState';
-        const response = await axios.get(url, {
-            headers: {
-                user_id: userId
-            }
-        });
-        if (response.data) {
-            setVoteState(response.data.state);
-        }
-
-        return voteState;
-    }
 
     const vote = async (voteState: boolean) => {
-        const url = voteUrl + postId + `/${voteState}`;
-        const response = await axios.put(url, {}, {
-            headers: {
-                user_id: userId
-            }
-        });
-        const responseData: IPost = await response.data;
-        setVotes(responseData.votes);
+        if (!userId) return;
+        const votes = await VotingController.setVote(postId, voteState, userId);
+        setVotes(votes);
     }
-
-    useEffect(() => {
-        fetchVoteState();
-    });
 
     return (
         <div className={classes.votingSection}>
