@@ -15,4 +15,9 @@ export default class PostingController {
         });
         return response.data;
     }
+
+    static async getAllPosts() {
+        const response = await axios.get(PostingController.GET_ALL_POSTS_URL);
+        return response.data;
+    }
 }

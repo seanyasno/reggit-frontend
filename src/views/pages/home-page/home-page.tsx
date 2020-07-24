@@ -1,10 +1,9 @@
 import {Dialog, makeStyles, Card, Typography} from '@material-ui/core';
+import {PostingController} from '../../../controllers';
 import {CreatePost, Post} from '../../components';
 import React, {useEffect, useState} from 'react';
 import {useCardStyle} from '../../../constants';
-import Config from '../../../conf/Config';
 import IPost from '../../../models/post';
-import axios from 'axios';
 
 const useStyles = makeStyles({
     body: {
@@ -26,11 +25,7 @@ const HomePage = () => {
     const [posts, setPosts] = useState<Array<IPost>>([]);
 
     useEffect(() => {
-        const url = Config.getInstance().getServerUrl() + Config.getInstance().getConfiguration().ROUTES.POST.ALL_POSTS;
-        axios.get(url).then(response => {
-            const posts = response.data;
-            setPosts(posts);
-        });
+        PostingController.getAllPosts().then(allPosts => setPosts(allPosts));
     }, []);
 
     const onNewCreatedPost = (newPost: IPost) => {
