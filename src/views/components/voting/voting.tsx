@@ -3,8 +3,8 @@ import {Typography, makeStyles} from '@material-ui/core';
 import {VotingController} from '../../../controllers';
 import useVoteState from './useVoteState';
 import IVotingProps from './voting-props';
+import {useSelector} from 'react-redux';
 import {IState} from '../../../stores';
-import {connect} from 'react-redux';
 import React from 'react';
 
 const useStyles = makeStyles({
@@ -24,13 +24,14 @@ const useStyles = makeStyles({
 });
 
 const Voting: React.FunctionComponent<IVotingProps> = (props) => {
-    const {postId, votes, setVotes, userId}: IVotingProps = props;
-    const voteState = useVoteState(postId, userId);
+    const userId = useSelector<IState>(state => state.authentication.user.id);
+    const {postId, votes, setVotes}: IVotingProps = props;
+    const voteState = useVoteState(postId, userId as string);
     const classes = useStyles();
 
     const vote = async (voteState: boolean) => {
         if (!userId) return;
-        const votes = await VotingController.setVote(postId, voteState, userId);
+        const votes = await VotingController.setVote(postId, voteState, userId as string);
         setVotes(votes);
     }
 
@@ -43,10 +44,4 @@ const Voting: React.FunctionComponent<IVotingProps> = (props) => {
     );
 }
 
-const mapStateToProps = (state: IState) => {
-    return {
-        userId: state.authentication.user.id
-    }
-}
-
-export default connect(mapStateToProps, undefined)(Voting);
+export default Voting;
