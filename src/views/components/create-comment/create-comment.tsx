@@ -1,9 +1,9 @@
+import CommentingController from '../../../controllers/commenting-controller';
 import {makeStyles, Button, Card, TextField} from '@material-ui/core';
 import ICreateCommentProps from './create-comment-props';
 import {AuthenticationContext} from '../../../contexts';
 import React, {useContext, useState} from 'react';
 import {useCardStyle} from '../../../constants';
-import CommentingController from '../../../controllers/commenting-controller';
 
 const useStyles = makeStyles({
     root: {
