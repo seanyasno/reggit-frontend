@@ -1,5 +1,5 @@
-import {LoginFormActionType} from './stores/login-form-action-type';
 import React, {ChangeEvent, FormEvent, useContext, useReducer} from 'react';
+import {LoginFormActionType} from './stores/login-form-action-type';
 import {AuthenticationController} from '../../../controllers';
 import loginFormReducer from './stores/login-form-reducer';
 import {AuthenticationContext} from '../../../contexts';
