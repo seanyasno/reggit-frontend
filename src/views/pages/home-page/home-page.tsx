@@ -25,7 +25,15 @@ const HomePage = () => {
     const [posts, setPosts] = useState<Array<IPost>>([]);
 
     useEffect(() => {
-        PostingController.getAllPosts().then(allPosts => setPosts(allPosts));
+        let mounted = true;
+        PostingController.getAllPosts().then(allPosts => {
+            if (mounted) {
+                setPosts(allPosts);
+            }
+        });
+        return () => {
+            mounted = false;
+        }
     }, []);
 
     const onNewCreatedPost = (newPost: IPost) => {
