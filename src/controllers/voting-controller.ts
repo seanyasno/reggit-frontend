@@ -1,6 +1,6 @@
 import Config from '../conf/Config';
-import axios from 'axios';
 import IPost from '../models/post';
+import axios from 'axios';
 
 export default class VotingController {
     static GET_VOTE_STATE_URL = Config.getInstance().getServerUrl() + Config.getInstance().getConfiguration().ROUTES.POST.GET_VOTE_STATE;
