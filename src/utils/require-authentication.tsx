@@ -1,13 +1,14 @@
+import React, {useContext, useEffect} from 'react';
+import {AuthenticationContext} from '../contexts';
 import {useHistory} from 'react-router-dom';
-import React, {useEffect} from 'react';
-import {connect} from 'react-redux';
 
 export default function (ComposedComponent: any) {
     function Authenticate(props: any) {
         const history = useHistory();
+        const {isAuthenticated} = useContext(AuthenticationContext);
 
         useEffect(() => {
-            if (!localStorage.jwtToken || props.isAuthenticated === false) {
+            if (!localStorage.jwtToken || !isAuthenticated) {
                 history.push('/login');
             }
         });
@@ -15,11 +16,5 @@ export default function (ComposedComponent: any) {
         return (<ComposedComponent {...props}/>);
     }
 
-    function mapStateToFunction(state: any) {
-        return {
-            isAuthenticated: state.authentication.isAuthenticated
-        };
-    }
-
-    return connect(mapStateToFunction, {})(Authenticate);
+    return Authenticate;
 }

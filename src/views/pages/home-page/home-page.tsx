@@ -1,11 +1,12 @@
 import {List, ListItem, Dialog, makeStyles, Card, Typography} from '@material-ui/core';
+import ForumCard from '../../components/forum-card/forum-card';
+import {PostingController} from '../../../controllers';
 import {CreatePost, Post} from '../../components';
 import React, {useEffect, useState} from 'react';
 import {useCardStyle} from '../../../constants';
-import Config from '../../../conf/Config';
 import IPost from '../../../models/post';
+import Config from '../../../conf/Config';
 import axios from 'axios';
-import ForumCard from '../../components/forum-card/forum-card';
 
 const useStyles = makeStyles({
     body: {
@@ -39,12 +40,12 @@ const HomePage = () => {
     const [posts, setPosts] = useState<Array<IPost>>([]);
 
     useEffect(() => {
-        const url = Config.getInstance().getServerUrl() + Config.getInstance().getConfiguration().ROUTES.POST.ALL_POSTS;
-        axios.get(url).then(response => {
-            const posts = response.data;
-            setPosts(posts);
+        let mounted = true;
+        PostingController.getAllPosts().then(allPosts => {
+            if (mounted) {
+                setPosts(allPosts);
+            }
         });
-
         const fetchAllForums = async () => {
             const url = Config.getInstance().getServerUrl() + Config.getInstance().getConfiguration().ROUTES.FORUM.GET_ALL_FORUMS;
             const response = await axios.get(url);
@@ -52,6 +53,9 @@ const HomePage = () => {
         }
 
         fetchAllForums();
+        return () => {
+            mounted = false;
+        }
     }, []);
 
     const onNewCreatedPost = (newPost: IPost) => {
@@ -61,8 +65,7 @@ const HomePage = () => {
 
     const generateForumCards = (): Array<JSX.Element> => {
         const forumCards: Array<JSX.Element> = [];
-        forums.map((forum, index) => forumCards.push(<ListItem key={index}><ForumCard
-            forum={forum}/></ListItem>));
+        forums.map((forum, index) => forumCards.push(<ListItem key={index}><ForumCard forum={forum}/></ListItem>));
         return forumCards;
     }
 
@@ -76,7 +79,7 @@ const HomePage = () => {
                 {generateForumCards()}
             </List>
             <Dialog PaperProps={{className: classes.dialog}} open={showDialog} onClose={() => setShowDialog(false)}>
-                <CreatePost user={undefined} onCancel={() => setShowDialog(false)} onDone={onNewCreatedPost}/>
+                <CreatePost onCancel={() => setShowDialog(false)} onDone={onNewCreatedPost}/>
             </Dialog>
             {
                 posts.map((post, index) => (

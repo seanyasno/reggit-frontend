@@ -1,11 +1,9 @@
-import AuthenticationAction from '../../../stores/authentication/authentication-action';
 import {makeStyles, AppBar, Toolbar, Typography} from '@material-ui/core';
-import INavBarProps from './nav-bar-props';
-import {IState} from '../../../stores';
-import {Link} from 'react-router-dom';
-import {connect} from 'react-redux';
-import React from 'react';
+import {AuthenticationController} from '../../../controllers';
+import {AuthenticationContext} from '../../../contexts';
 import logo from '../../../pictures/logo.svg';
+import React, {useContext} from 'react';
+import {Link} from 'react-router-dom';
 
 const useStyles = makeStyles({
     toolbar: {
@@ -31,9 +29,16 @@ const useStyles = makeStyles({
     }
 });
 
-const NavBar = (props: INavBarProps) => {
+const NavBar: React.FunctionComponent = () => {
     const classes = useStyles();
-    const {isAuthenticated, firstName, logout} = props;
+    const {isAuthenticated, user, setUser, setIsAuthenticated} = useContext(AuthenticationContext);
+
+    const logout = () => {
+        AuthenticationController.logout().then(() => {
+            setIsAuthenticated(false);
+            setUser(undefined);
+        });
+    }
 
     return (
         <div>
@@ -43,7 +48,7 @@ const NavBar = (props: INavBarProps) => {
                         <Link className={classes.link} to='/'>
                             <img className={classes.logo} src={logo} alt={'Reggit'}/>
                         </Link>
-                        {isAuthenticated && <Typography className={classes.title} variant={'h6'}>Hello, {firstName}</Typography>}
+                        {isAuthenticated && <Typography className={classes.title} variant={'h6'}>Hello, {user?.profile.firstName}</Typography>}
                     </div>
                     {!isAuthenticated &&
                     <Link className={classes.link} to='/login'>
@@ -59,12 +64,4 @@ const NavBar = (props: INavBarProps) => {
     );
 }
 
-const mapStateToProps = (state: IState) => {
-    return {
-        isAuthenticated: state.authentication.isAuthenticated,
-        firstName: state.authentication.user.profile?.firstName
-    };
-}
-
-const logout = AuthenticationAction.logout;
-export default connect(mapStateToProps, {logout})(NavBar);
+export default NavBar;

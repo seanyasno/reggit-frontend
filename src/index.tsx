@@ -1,9 +1,5 @@
-import AuthenticationAction from './stores/authentication/authentication-action';
 import {MuiThemeProvider, createMuiTheme} from '@material-ui/core';
 import * as serviceWorker from './serviceWorker';
-import {Provider} from 'react-redux';
-import jwtDecode from 'jwt-decode';
-import {rootStore} from './stores';
 import ReactDOM from 'react-dom';
 import App from './views/App';
 import React from 'react';
@@ -15,19 +11,9 @@ const THEME = createMuiTheme({
     }
 });
 
-const initialState = {};
-const store = rootStore(initialState);
-
-if (localStorage.jwtToken) {
-    // @ts-ignore
-    store.dispatch(AuthenticationAction.setCurrentUser(jwtDecode(localStorage.jwtToken)));
-}
-
 ReactDOM.render(
     <MuiThemeProvider theme={THEME}>
-        <Provider store={store}>
-            <App/>
-        </Provider>
+        <App/>
     </MuiThemeProvider>,
     document.getElementById('root')
 );

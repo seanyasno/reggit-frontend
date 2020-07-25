@@ -1,15 +1,13 @@
 import {Card, Typography, Divider, makeStyles, Menu, MenuItem} from '@material-ui/core';
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
+import {AuthenticationContext} from '../../../contexts';
+import {PostingController} from '../../../controllers';
 import {useCardStyle} from '../../../constants';
 import {useHistory} from 'react-router-dom';
 import {MoreVert} from '@material-ui/icons';
-import Config from '../../../conf/Config';
 import IPost from '../../../models/post';
-import {IState} from '../../../stores';
 import IPostProps from './post-props';
-import {connect} from 'react-redux';
 import {Voting} from '../index';
-import axios from 'axios';
 
 const useStyles = makeStyles({
     topSection: {
@@ -31,7 +29,8 @@ const useStyles = makeStyles({
 });
 
 const Post: React.FunctionComponent<IPostProps> = (props) => {
-    const {postId, postData, canOpenInNewPage, userId} = props;
+    const {postId, postData, canOpenInNewPage} = props;
+    const {user} = useContext(AuthenticationContext);
     const history = useHistory();
     const classes = useStyles(props);
     const cardStyle = useCardStyle(props);
@@ -58,9 +57,8 @@ const Post: React.FunctionComponent<IPostProps> = (props) => {
     }
 
     const removePost = async () => {
-        const url = Config.getInstance().getServerUrl() + Config.getInstance().getConfiguration().ROUTES.POST.DELETE_POST + postId;
         try {
-            await axios.delete(url);
+            await PostingController.removePostById(postId);
             setAnchorEl(null);
             setPost({
                 id: '',
@@ -85,9 +83,7 @@ const Post: React.FunctionComponent<IPostProps> = (props) => {
         if (postData) {
             setPost(postData);
         } else {
-            const url = Config.getInstance().getServerUrl() + Config.getInstance().getConfiguration().ROUTES.POST.GET_POST_BY_ID;
-            axios.get(url + postId).then(response => {
-                const post = response.data;
+            PostingController.getPostById(postId).then(post => {
                 setPost(post);
             });
         }
@@ -99,7 +95,7 @@ const Post: React.FunctionComponent<IPostProps> = (props) => {
                 <Typography className={classes.author}
                             variant={'body2'}>{post?.user?.profile.firstName} {post?.user?.profile.lastName}</Typography>
                 <div>
-                    {userId === post?.userId && <MoreVert aria-controls={'options-menu'} aria-haspopup={'true'} className={classes.showMore}
+                    {user?.id === post?.userId && <MoreVert aria-controls={'options-menu'} aria-haspopup={'true'} className={classes.showMore}
                               onClick={handleClick}/>}
                     <Menu
                         id={'options-menu'}
@@ -122,10 +118,4 @@ const Post: React.FunctionComponent<IPostProps> = (props) => {
     );
 }
 
-const mapStateToProps = (state: IState) => {
-    return {
-        userId: state.authentication.user.id
-    }
-}
-
-export default connect(mapStateToProps, undefined)(Post);
+export default Post;

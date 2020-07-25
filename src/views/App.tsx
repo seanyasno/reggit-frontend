@@ -1,34 +1,44 @@
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 import {HomePage, LoginPage, PostPage} from './pages';
+import {AuthenticationContext} from '../contexts';
+import React, {useEffect, useState} from 'react';
 import {requireAuthentication} from '../utils';
-import IState from '../stores/state';
-import {connect} from 'react-redux';
 import {NavBar} from './components';
-import IAppProps from './app-props';
-import React from 'react';
+import IUser from '../models/user';
+import jwtDecode from 'jwt-decode';
 import './App.css';
 
-const App: React.FunctionComponent<IAppProps> = (props) => {
-    const {isAuthenticated = false} = props;
+
+const App: React.FunctionComponent = () => {
+    const [user, setUser] = useState<IUser>();
+    const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+
+    useEffect(() => {
+        if (localStorage.jwtToken) {
+            setUser(jwtDecode(localStorage.jwtToken));
+            setIsAuthenticated(true);
+        }
+    }, []);
 
     return (
         <Router>
-            <div className={'App'}>
-                {isAuthenticated && <NavBar/>}
-                <Switch>
-                    <Route path={'/'} exact component={requireAuthentication(HomePage)}/>
-                    <Route path={'/login'} component={LoginPage}/>
-                    <Route path={'/post/:postId'} component={requireAuthentication(PostPage)}/>
-                </Switch>
-            </div>
+            <AuthenticationContext.Provider value={{
+                user,
+                isAuthenticated,
+                setUser,
+                setIsAuthenticated
+            }}>
+                <div className={'App'}>
+                    {isAuthenticated && <NavBar/>}
+                    <Switch>
+                        <Route path={'/'} exact component={requireAuthentication(HomePage)}/>
+                        <Route path={'/login'} component={LoginPage}/>
+                        <Route path={'/post/:postId'} component={requireAuthentication(PostPage)}/>
+                    </Switch>
+                </div>
+            </AuthenticationContext.Provider>
         </Router>
     );
 }
 
-const mapStateToProps = (state: IState) => {
-    return {
-        isAuthenticated: state.authentication.isAuthenticated
-    };
-}
-
-export default connect(mapStateToProps, undefined)(App);
+export default App;
