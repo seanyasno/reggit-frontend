@@ -1,11 +1,10 @@
 import {ArrowUpward, ArrowDownward} from '@material-ui/icons';
 import {Typography, makeStyles} from '@material-ui/core';
+import {AuthenticationContext} from '../../../contexts';
 import {VotingController} from '../../../controllers';
 import useVoteState from './useVoteState';
 import IVotingProps from './voting-props';
-import {useSelector} from 'react-redux';
-import {IState} from '../../../stores';
-import React from 'react';
+import React, {useContext} from 'react';
 
 const useStyles = makeStyles({
     votingSection: {
@@ -24,14 +23,14 @@ const useStyles = makeStyles({
 });
 
 const Voting: React.FunctionComponent<IVotingProps> = (props) => {
-    const userId = useSelector<IState>(state => state.authentication.user.id);
     const {postId, votes, setVotes}: IVotingProps = props;
-    const voteState = useVoteState(postId, userId as string);
+    const {user} = useContext(AuthenticationContext);
+    const voteState = useVoteState(postId, user?.id);
     const classes = useStyles();
 
     const vote = async (voteState: boolean) => {
-        if (!userId) return;
-        const votes = await VotingController.setVote(postId, voteState, userId as string);
+        if (!user?.id) return;
+        const votes = await VotingController.setVote(postId, voteState, user?.id);
         setVotes(votes);
     }
 

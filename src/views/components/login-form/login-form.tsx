@@ -1,14 +1,14 @@
-import AuthenticationAction from '../../../stores/authentication/authentication-action';
 import {LoginFormActionType} from './stores/login-form-action-type';
-import React, {ChangeEvent, FormEvent, useReducer} from 'react';
+import React, {ChangeEvent, FormEvent, useContext, useReducer} from 'react';
+import {AuthenticationController} from '../../../controllers';
 import loginFormReducer from './stores/login-form-reducer';
-import ILoginFormProps from './login-form-props';
+import {AuthenticationContext} from '../../../contexts';
 import LoginFormView from './login-form-view';
 import {useHistory} from 'react-router-dom';
-import {connect} from 'react-redux';
 
-const LoginForm = (props: ILoginFormProps) => {
+const LoginForm = () => {
     const history = useHistory();
+    const {setIsAuthenticated, setUser} = useContext(AuthenticationContext);
     const [state, dispatch] = useReducer(loginFormReducer, {
         username: '',
         password: '',
@@ -39,21 +39,11 @@ const LoginForm = (props: ILoginFormProps) => {
                 type: LoginFormActionType.SET_IS_LOADING,
                 payload: {isLoading: true}
             });
-            props.login({username, password, errors, isLoading}).then(
-                response => {
-                    history.push('/');
-                },
-                error => {
-                    dispatch({
-                        type: LoginFormActionType.SET_ERRORS,
-                        payload: {errors}
-                    });
-                    dispatch({
-                        type: LoginFormActionType.SET_IS_LOADING,
-                        payload: {isLoading: false}
-                    });
-                }
-            );
+            AuthenticationController.login(username, password).then(user => {
+                setIsAuthenticated(true);
+                setUser(user);
+                history.push('/');
+            });
         }
     }
 
@@ -64,5 +54,4 @@ const LoginForm = (props: ILoginFormProps) => {
     return(<LoginFormView onChange={onChange} onSubmit={onSubmit} errors={errors} isLoading={isLoading}/>);
 }
 
-const login = AuthenticationAction.login;
-export default connect(null, {login})(LoginForm);
+export default LoginForm;

@@ -1,10 +1,9 @@
 import {makeStyles, Button, Card, TextField} from '@material-ui/core';
 import ICreateCommentProps from './create-comment-props';
+import {AuthenticationContext} from '../../../contexts';
+import React, {useContext, useState} from 'react';
 import {useCardStyle} from '../../../constants';
-import IState from '../../../stores/state';
 import Config from '../../../conf/Config';
-import React, {useState} from 'react';
-import {connect} from 'react-redux';
 import axios from 'axios';
 import _ from 'lodash';
 
@@ -21,7 +20,8 @@ const useStyles = makeStyles({
 });
 
 const CreateComment: React.FunctionComponent<ICreateCommentProps> = (props) => {
-    const {postId, user} = props;
+    const {postId} = props;
+    const {user} = useContext(AuthenticationContext);
     const classes = useStyles(props);
     const cardStyle = useCardStyle();
     const [content, setContent] = useState<string>('');
@@ -64,10 +64,4 @@ const CreateComment: React.FunctionComponent<ICreateCommentProps> = (props) => {
     );
 }
 
-const mapStateToProps = (state: IState) => {
-    return {
-        user: state.authentication.user
-    };
-}
-
-export default connect(mapStateToProps, undefined)(CreateComment);
+export default CreateComment;

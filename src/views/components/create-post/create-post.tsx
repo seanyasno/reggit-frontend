@@ -1,10 +1,10 @@
 import {makeStyles, Card, Button, Divider, Typography, InputBase, Fab} from '@material-ui/core';
+import {AuthenticationContext} from '../../../contexts';
 import {PostingController} from '../../../controllers';
 import ICreatePostProps from './create-post-props';
+import React, {useContext, useState} from 'react';
 import {useCardStyle} from '../../../constants';
 import {Clear} from '@material-ui/icons';
-import React, {useState} from 'react';
-import {connect} from 'react-redux';
 
 const useStyles = makeStyles({
     titleSection: {
@@ -42,7 +42,8 @@ const useStyles = makeStyles({
 });
 
 const CreatePost: React.FunctionComponent<ICreatePostProps> = (props) => {
-    const {user, onCancel, onDone} = props;
+    const {onCancel, onDone} = props;
+    const {user} = useContext(AuthenticationContext);
     const [content, setContent] = useState('');
     const classes = useStyles(props);
     const cardStyle = useCardStyle(props);
@@ -80,8 +81,4 @@ const CreatePost: React.FunctionComponent<ICreatePostProps> = (props) => {
     );
 }
 
-const mapStateToProps = (state: any) => {
-    return {user: state.authentication.user};
-}
-
-export default connect(mapStateToProps, undefined)(CreatePost);
+export default CreatePost;

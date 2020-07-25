@@ -40,7 +40,7 @@ const HomePage = () => {
                 <Typography color={'textSecondary'}>What's on your mind?</Typography>
             </Card>
             <Dialog PaperProps={{className: classes.dialog}} open={showDialog} onClose={() => setShowDialog(false)}>
-                <CreatePost user={undefined} onCancel={() => setShowDialog(false)} onDone={onNewCreatedPost}/>
+                <CreatePost onCancel={() => setShowDialog(false)} onDone={onNewCreatedPost}/>
             </Dialog>
             {
                 posts.map((post, index) => (
