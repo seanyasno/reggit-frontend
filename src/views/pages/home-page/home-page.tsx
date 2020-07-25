@@ -1,12 +1,13 @@
 import {List, ListItem, Dialog, makeStyles, Card, Typography} from '@material-ui/core';
 import ForumCard from '../../components/forum-card/forum-card';
-import {PostingController} from '../../../controllers';
+import {ForumController, PostingController} from '../../../controllers';
 import {CreatePost, Post} from '../../components';
 import React, {useEffect, useState} from 'react';
 import {useCardStyle} from '../../../constants';
 import IPost from '../../../models/post';
 import Config from '../../../conf/Config';
 import axios from 'axios';
+import IForum from '../../../models/forum';
 
 const useStyles = makeStyles({
     body: {
@@ -33,7 +34,7 @@ const useStyles = makeStyles({
 
 const HomePage = () => {
     const [showDialog, setShowDialog] = useState(false);
-    const [forums, setForums] = useState([]);
+    const [forums, setForums] = useState<Array<IForum>>([]);
     const classes = useStyles();
     const cardStyle = useCardStyle();
 
@@ -46,13 +47,11 @@ const HomePage = () => {
                 setPosts(allPosts);
             }
         });
-        const fetchAllForums = async () => {
-            const url = Config.getInstance().getServerUrl() + Config.getInstance().getConfiguration().ROUTES.FORUM.GET_ALL_FORUMS;
-            const response = await axios.get(url);
-            setForums(response.data);
-        }
-
-        fetchAllForums();
+        ForumController.getAllForums().then(allForums => {
+            if (mounted) {
+                setForums(allForums);
+            }
+        });
         return () => {
             mounted = false;
         }
