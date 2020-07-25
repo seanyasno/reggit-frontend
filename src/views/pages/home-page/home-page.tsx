@@ -1,10 +1,9 @@
 import {Dialog, makeStyles, Card, Typography} from '@material-ui/core';
+import {PostingController} from '../../../controllers';
 import {CreatePost, Post} from '../../components';
 import React, {useEffect, useState} from 'react';
 import {useCardStyle} from '../../../constants';
-import Config from '../../../conf/Config';
 import IPost from '../../../models/post';
-import axios from 'axios';
 
 const useStyles = makeStyles({
     body: {
@@ -26,11 +25,15 @@ const HomePage = () => {
     const [posts, setPosts] = useState<Array<IPost>>([]);
 
     useEffect(() => {
-        const url = Config.getInstance().getServerUrl() + Config.getInstance().getConfiguration().ROUTES.POST.ALL_POSTS;
-        axios.get(url).then(response => {
-            const posts = response.data;
-            setPosts(posts);
+        let mounted = true;
+        PostingController.getAllPosts().then(allPosts => {
+            if (mounted) {
+                setPosts(allPosts);
+            }
         });
+        return () => {
+            mounted = false;
+        }
     }, []);
 
     const onNewCreatedPost = (newPost: IPost) => {
@@ -45,7 +48,7 @@ const HomePage = () => {
                 <Typography color={'textSecondary'}>What's on your mind?</Typography>
             </Card>
             <Dialog PaperProps={{className: classes.dialog}} open={showDialog} onClose={() => setShowDialog(false)}>
-                <CreatePost user={undefined} onCancel={() => setShowDialog(false)} onDone={onNewCreatedPost    }/>
+                <CreatePost onCancel={() => setShowDialog(false)} onDone={onNewCreatedPost}/>
             </Dialog>
             {
                 posts.map((post, index) => (

@@ -1,48 +1,57 @@
-import AuthenticationAction from '../../../stores/authentication/authentication-action';
-import React, {ChangeEvent, FormEvent, useState} from 'react';
-import ILoginFormProps from './login-form-props';
+import React, {ChangeEvent, FormEvent, useContext, useReducer} from 'react';
+import {LoginFormActionType} from './stores/login-form-action-type';
+import {AuthenticationController} from '../../../controllers';
+import loginFormReducer from './stores/login-form-reducer';
+import {AuthenticationContext} from '../../../contexts';
 import LoginFormView from './login-form-view';
 import {useHistory} from 'react-router-dom';
-import {connect} from 'react-redux';
 
-const LoginForm = (props: ILoginFormProps) => {
+const LoginForm = () => {
     const history = useHistory();
+    const {setIsAuthenticated, setUser} = useContext(AuthenticationContext);
+    const [state, dispatch] = useReducer(loginFormReducer, {
+        username: '',
+        password: '',
+        errors: {},
+        isLoading: false
+    });
+    const {username, password, errors, isLoading} = state;
 
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
-    const [errors, setErrors] = useState({});
-    const [isLoading, setLoading] = useState(false);
-
-    const formHandleChange = {
-        username: setUsername,
-        password: setPassword
+    const formHandleChange: any = {
+        username: (username: string) => dispatch({
+            type: LoginFormActionType.SET_USERNAME,
+            payload: {username}
+        }),
+        password: (password: string) => dispatch({
+            type: LoginFormActionType.SET_PASSWORD,
+            payload: {password}
+        })
     };
 
     const onSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-
         if (username && password) {
-            setErrors({});
-            setLoading(true);
-            props.login({username, password, errors, isLoading}).then(
-                response => {
-                    history.push('/');
-                },
-                error => {
-                    setErrors(error.errors);
-                    setLoading(false);
-                }
-            );
+            dispatch({
+                type: LoginFormActionType.SET_ERRORS,
+                payload: {errors: {}}
+            });
+            dispatch({
+                type: LoginFormActionType.SET_IS_LOADING,
+                payload: {isLoading: true}
+            });
+            AuthenticationController.login(username, password).then(user => {
+                setIsAuthenticated(true);
+                setUser(user);
+                history.push('/');
+            });
         }
     }
 
     const onChange = (event: ChangeEvent<HTMLInputElement>) => {
-        // @ts-ignore
         formHandleChange[event.target.name](event.target.value);
     }
 
     return(<LoginFormView onChange={onChange} onSubmit={onSubmit} errors={errors} isLoading={isLoading}/>);
 }
 
-const login = AuthenticationAction.login;
-export default connect(null, {login})(LoginForm);
+export default LoginForm;

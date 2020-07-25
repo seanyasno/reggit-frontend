@@ -1,10 +1,9 @@
+import {AuthenticationContext} from '../../../contexts';
 import loginImg from '../../../pictures/login_img.svg';
-import ILoginPageProps from './login-page-props';
+import React, {useContext, useEffect} from 'react';
 import {makeStyles} from '@material-ui/core';
 import {useHistory} from 'react-router-dom';
 import {LoginForm} from '../../components';
-import React, {useEffect} from  'react';
-import {connect} from 'react-redux';
 
 const useStyles = makeStyles({
     root: {
@@ -17,12 +16,13 @@ const useStyles = makeStyles({
     }
 });
 
-const LoginPage = (props: ILoginPageProps) => {
+const LoginPage = () => {
     const history = useHistory();
-    const classes = useStyles(props);
+    const classes = useStyles();
+    const {isAuthenticated} = useContext(AuthenticationContext);
 
     useEffect(() => {
-        if (props.isAuthenticated) {
+        if (isAuthenticated) {
             history.push('/');
         }
     });
@@ -35,10 +35,4 @@ const LoginPage = (props: ILoginPageProps) => {
     );
 }
 
-const mapStateToProps = (state: any) => {
-    return {
-        isAuthenticated: state.authentication.isAuthenticated
-    };
-}
-
-export default connect(mapStateToProps, null)(LoginPage);
+export default LoginPage;
