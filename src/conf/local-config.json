@@ -21,7 +21,8 @@
     "FORUM": {
       "GET_ALL_FORUMS": "/api/forum/getAllForums",
       "GET_FORUM_BY_ID": "/api/forum/getForumById/",
-      "CREATE": "/api/forum/createForum"
+      "CREATE": "/api/forum/createForum",
+      "GET_ALL_POSTS_BY_FORUM_ID": "/api/forum/getPostsOf/"
     }
   }
 }

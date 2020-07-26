@@ -1,6 +1,7 @@
 import {Card, Typography, Divider, makeStyles} from '@material-ui/core';
 import {AddBoxRounded} from '@material-ui/icons';
 import IForumCardProps from './forum-card-props';
+import {useHistory} from 'react-router-dom';
 import React from 'react';
 
 const useStyles = makeStyles({
@@ -28,10 +29,13 @@ const useStyles = makeStyles({
 
 const ForumCard: React.FunctionComponent<IForumCardProps> = (props) => {
     const {forum} = props;
+    const history = useHistory();
     const classes = useStyles(props);
 
     return (
-        <Card className={classes.card} elevation={3}>
+        <Card className={classes.card} elevation={3} onClick={() => {
+            history.push(`/forum/${forum.id}`);
+        }}>
             <div className={classes.topSection}>
                 <Typography className={classes.title} noWrap={false} variant={'h6'}>{forum.name}</Typography>
                 <AddBoxRounded className={classes.join} color={'primary'}/>

@@ -1,14 +1,12 @@
-import React, {useContext, useEffect} from 'react';
-import {AuthenticationContext} from '../contexts';
 import {useHistory} from 'react-router-dom';
+import React, {useEffect} from 'react';
 
 export default function (ComposedComponent: any) {
     function Authenticate(props: any) {
         const history = useHistory();
-        const {isAuthenticated} = useContext(AuthenticationContext);
 
         useEffect(() => {
-            if (!localStorage.jwtToken || !isAuthenticated) {
+            if (!localStorage.jwtToken) {
                 history.push('/login');
             }
         });

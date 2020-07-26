@@ -1,13 +1,11 @@
 import {List, ListItem, Dialog, makeStyles, Card, Typography} from '@material-ui/core';
-import ForumCard from '../../components/forum-card/forum-card';
 import {ForumController, PostingController} from '../../../controllers';
+import ForumCard from '../../components/forum-card/forum-card';
 import {CreatePost, Post} from '../../components';
 import React, {useEffect, useState} from 'react';
 import {useCardStyle} from '../../../constants';
-import IPost from '../../../models/post';
-import Config from '../../../conf/Config';
-import axios from 'axios';
 import IForum from '../../../models/forum';
+import IPost from '../../../models/post';
 
 const useStyles = makeStyles({
     body: {
