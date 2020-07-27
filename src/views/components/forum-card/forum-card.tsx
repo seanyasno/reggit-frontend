@@ -38,9 +38,12 @@ const ForumCard: React.FunctionComponent<IForumCardProps> = (props) => {
         }}>
             <div className={classes.topSection}>
                 <Typography className={classes.title} noWrap={false} variant={'h6'}>{forum.name}</Typography>
-                <AddBoxRounded className={classes.join} color={'primary'}/>
+                <AddBoxRounded className={classes.join} color={'primary'} onClick={() => alert('nice')}/>
             </div>
             <Divider/>
+            <div>
+                <Typography>{forum.description}</Typography>
+            </div>
         </Card>
     );
 }
