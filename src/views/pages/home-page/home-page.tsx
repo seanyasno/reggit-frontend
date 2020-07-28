@@ -75,7 +75,7 @@ const HomePage = () => {
             <List className={classes.forums}>
                 {generateForumCards()}
             </List>
-            <Dialog PaperProps={{className: classes.dialog}} open={showDialog} onClose={() => setShowDialog(false)}>
+            <Dialog style={{maxWidth: '30%', margin: 'auto'}} PaperProps={{className: classes.dialog}} open={showDialog} onClose={() => setShowDialog(false)}>
                 <CreatePost onCancel={() => setShowDialog(false)} onDone={onNewCreatedPost}/>
             </Dialog>
             {

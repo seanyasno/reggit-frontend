@@ -80,12 +80,16 @@ const Post: React.FunctionComponent<IPostProps> = (props) => {
     }
 
     useEffect(() => {
-        if (postData) {
+        let mounted = true;
+        if (postData && mounted) {
             setPost(postData);
         } else {
             PostingController.getPostById(postId).then(post => {
                 setPost(post);
             });
+        }
+        return () => {
+            mounted = false;
         }
     }, [postId, postData]);
 

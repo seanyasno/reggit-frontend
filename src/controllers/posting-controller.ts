@@ -8,10 +8,11 @@ export default class PostingController {
     static GET_POST_BY_ID_URL: string = Config.getInstance().getServerUrl() + Config.getInstance().getConfiguration().ROUTES.POST.GET_POST_BY_ID;
     static DELETE_POST_URL: string = Config.getInstance().getServerUrl() + Config.getInstance().getConfiguration().ROUTES.POST.DELETE_POST;
 
-    static async createNewPost(userId: string, content: string): Promise<IPost> {
+    static async createNewPost(userId: string, content: string, forumId: string): Promise<IPost> {
         const response = await axios.post(PostingController.CREATE_POST_URL, {
             userId,
-            content
+            content,
+            forumId
         });
         return response.data;
     }
