@@ -1,5 +1,5 @@
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
-import {HomePage, LoginPage, PostPage} from './pages';
+import {ForumPage, HomePage, LoginPage, PostPage} from './pages';
 import {AuthenticationContext} from '../contexts';
 import React, {useEffect, useState} from 'react';
 import {requireAuthentication} from '../utils';
@@ -34,6 +34,7 @@ const App: React.FunctionComponent = () => {
                         <Route path={'/'} exact component={requireAuthentication(HomePage)}/>
                         <Route path={'/login'} component={LoginPage}/>
                         <Route path={'/post/:postId'} component={requireAuthentication(PostPage)}/>
+                        <Route path={'/forum/:forumId'} component={requireAuthentication(ForumPage)}/>
                     </Switch>
                 </div>
             </AuthenticationContext.Provider>

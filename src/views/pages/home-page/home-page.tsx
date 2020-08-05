@@ -1,8 +1,12 @@
-import {Dialog, makeStyles, Card, Typography} from '@material-ui/core';
-import {PostingController} from '../../../controllers';
+import {List, ListItem, Dialog, makeStyles, Card, Typography} from '@material-ui/core';
+import {AuthenticationContext, SubscriptionContext} from '../../../contexts/index';
+import SubscriptionController from '../../../controllers/subscription-controller';
+import {ForumController, PostingController} from '../../../controllers';
+import ForumCard from '../../components/forum-card/forum-card';
+import React, {useContext, useEffect, useState} from 'react';
 import {CreatePost, Post} from '../../components';
-import React, {useEffect, useState} from 'react';
 import {useCardStyle} from '../../../constants';
+import IForum from '../../../models/forum';
 import IPost from '../../../models/post';
 
 const useStyles = makeStyles({
@@ -14,11 +18,25 @@ const useStyles = makeStyles({
     },
     post: {
         margin: '1.5em 0 0 0'
+    },
+    forums: {
+        display: 'flex',
+        overflowX: 'auto',
+        padding: '0',
+        paddingBottom: '.75em',
+        margin: 'auto',
+        marginTop: '1em',
+        flexDirection: 'row',
+        maxWidth: '33%',
+        minWidth: '400px',
     }
 });
 
 const HomePage = () => {
     const [showDialog, setShowDialog] = useState(false);
+    const [forums, setForums] = useState<Array<IForum>>([]);
+    const [forumIds, setForumIds] = useState<Array<string>>([]);
+    const {user} = useContext(AuthenticationContext);
     const classes = useStyles();
     const cardStyle = useCardStyle();
 
@@ -31,14 +49,37 @@ const HomePage = () => {
                 setPosts(allPosts);
             }
         });
+        ForumController.getAllForums().then(allForums => {
+            if (mounted) {
+                setForums(allForums);
+            }
+        });
+        SubscriptionController.getAllForumsByUserId(user?.id || '').then(forumIds => {
+           if (mounted) {
+               setForumIds(forumIds);
+           }
+        });
         return () => {
             mounted = false;
         }
-    }, []);
+    }, [user]);
 
     const onNewCreatedPost = (newPost: IPost) => {
         setShowDialog(false);
         setPosts([...posts, newPost]);
+    }
+
+    const generateForumCards = (): Array<JSX.Element> => {
+        const forumCards: Array<JSX.Element> = [];
+        forums.map((forum, index) => forumCards.push(
+            <ListItem key={index}>
+                <ForumCard
+                    subscribed={Boolean(forumIds.find(forumId => forumId === forum.id))}
+                    forum={forum}
+                />
+            </ListItem>
+        ));
+        return forumCards;
     }
 
     return (
@@ -47,7 +88,13 @@ const HomePage = () => {
                   onClick={() => setShowDialog(true)}>
                 <Typography color={'textSecondary'}>What's on your mind?</Typography>
             </Card>
-            <Dialog PaperProps={{className: classes.dialog}} open={showDialog} onClose={() => setShowDialog(false)}>
+            <SubscriptionContext.Provider value={{forumIds, setForumIds}}>
+                <List className={classes.forums}>
+                    {generateForumCards()}
+                </List>
+            </SubscriptionContext.Provider>
+            <Dialog style={{maxWidth: '30%', margin: 'auto'}} PaperProps={{className: classes.dialog}} open={showDialog}
+                    onClose={() => setShowDialog(false)}>
                 <CreatePost onCancel={() => setShowDialog(false)} onDone={onNewCreatedPost}/>
             </Dialog>
             {
