@@ -3,6 +3,7 @@ import IForumPageParams from './forum-page-params';
 import React, {useEffect, useState} from 'react';
 import {makeStyles} from '@material-ui/core';
 import {useParams} from 'react-router-dom';
+import {ForumDetails} from './components';
 import IPost from '../../../models/post';
 import {Post} from '../../components';
 
@@ -31,7 +32,8 @@ const ForumPage: React.FunctionComponent = () => {
     }, [params.forumId])
 
     return (
-        <div>
+        <div style={{margin: '1em 0'}}>
+            <ForumDetails forumId={params.forumId}/>
             {
                 posts.map((post, index) => (
                     <div className={classes.post} key={index}>

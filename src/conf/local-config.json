@@ -23,6 +23,12 @@
       "GET_FORUM_BY_ID": "/api/forum/getForumById/",
       "CREATE": "/api/forum/createForum",
       "GET_ALL_POSTS_BY_FORUM_ID": "/api/forum/getPostsOf/"
+    },
+    "SUBSCRIPTION": {
+      "CREATE": "/api/sub/new",
+      "REMOVE": "/api/sub/remove",
+      "GET_ALL_FORUMS_BY_USER_ID": "/api/sub/getForums",
+      "GET_ALL_USERS_BY_FORUM_ID": "/api/sub/getUsers"
     }
   }
 }
