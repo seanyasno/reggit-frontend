@@ -1,8 +1,8 @@
 import { makeStyles, Chip, Card, Button, Divider, Typography, InputBase, Fab } from '@material-ui/core';
-import { AuthenticationContext } from '../../../contexts';
 import { ForumController, PostingController } from '../../../controllers';
-import ICreatePostProps from './create-post-props';
 import React, { useContext, useEffect, useState } from 'react';
+import { AuthenticationContext } from '../../../contexts';
+import ICreatePostProps from './create-post-props';
 import { Clear } from '@material-ui/icons';
 import IForum from '../../../models/forum';
 
