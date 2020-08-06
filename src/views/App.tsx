@@ -30,8 +30,6 @@ const App: React.FunctionComponent = () => {
             SubscriptionController.getAllForumsByUserId(user?.id || '').then(forumIds => {
                 if (mounted) {
                     setForumIds(forumIds);
-                    console.log(user?.id);
-                    console.log(forumIds);
                 }
             });
         });

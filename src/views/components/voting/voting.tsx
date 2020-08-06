@@ -28,7 +28,8 @@ const Voting: React.FunctionComponent<IVotingProps> = (props) => {
     const voteState = useVoteState(postId, user?.id);
     const classes = useStyles();
 
-    const vote = async (voteState: boolean) => {
+    const vote = async (event: React.MouseEvent<SVGSVGElement>, voteState: boolean) => {
+        event.stopPropagation();
         if (!user?.id) return;
         const votes = await VotingController.setVote(postId, voteState, user?.id);
         setVotes(votes);
@@ -36,9 +37,9 @@ const Voting: React.FunctionComponent<IVotingProps> = (props) => {
 
     return (
         <div className={classes.votingSection}>
-            <ArrowUpward className={voteState === 1 ? classes.upvote : ''} onClick={() => vote(true)}/>
+            <ArrowUpward className={voteState === 1 ? classes.upvote : ''} onClick={(event) => vote(event, true)}/>
             <Typography className={classes.votes} display={'inline'}>{votes}</Typography>
-            <ArrowDownward className={voteState === -1 ? classes.downvote : ''} onClick={() => vote(false)}/>
+            <ArrowDownward className={voteState === -1 ? classes.downvote : ''} onClick={(event) => vote(event, false)}/>
         </div>
     );
 }
