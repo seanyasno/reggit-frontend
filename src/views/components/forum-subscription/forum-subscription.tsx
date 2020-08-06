@@ -20,11 +20,7 @@ const ForumSubscription: React.FunctionComponent<IForumSubscriptionProps> = (pro
     const classes = useStyles();
 
     const subscribe = async () => {
-        if (_.isEmpty(userId) || _.isEmpty(forumId)) {
-            console.log(`userId: ${userId}`);
-            console.log(`forumId: ${forumId}`);
-            return;
-        }
+        if (_.isEmpty(userId) || _.isEmpty(forumId)) return;
         const url: string = Config.getInstance().getServerUrl() + Config.getInstance().getConfiguration().ROUTES.SUBSCRIPTION.CREATE;
         const response = await axios.post(url, {userId, forumId: forumId});
         if (response.status === 200) {
@@ -33,11 +29,7 @@ const ForumSubscription: React.FunctionComponent<IForumSubscriptionProps> = (pro
     }
 
     const unsubscribe = async () => {
-        if (_.isEmpty(userId) || _.isEmpty(forumId)) {
-            console.log(`userId: ${userId}`);
-            console.log(`forumId: ${forumId}`);
-            return;
-        }
+        if (_.isEmpty(userId) || _.isEmpty(forumId)) return;
         const url: string = Config.getInstance().getServerUrl() + Config.getInstance().getConfiguration().ROUTES.SUBSCRIPTION.REMOVE;
         const response = await axios.delete(url, {data: {userId, forumId: forumId}});
         if (response.status === 200) {
