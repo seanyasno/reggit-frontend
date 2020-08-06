@@ -73,10 +73,7 @@ const HomePage = () => {
         const forumCards: Array<JSX.Element> = [];
         forums.map((forum, index) => forumCards.push(
             <ListItem key={index}>
-                <ForumCard
-                    subscribed={Boolean(forumIds.find(forumId => forumId === forum.id))}
-                    forum={forum}
-                />
+                <ForumCard forum={forum}/>
             </ListItem>
         ));
         return forumCards;
