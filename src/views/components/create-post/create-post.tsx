@@ -1,15 +1,21 @@
 import {AuthenticationContext} from '../../../contexts';
 import {PostingController} from '../../../controllers';
 import ICreatePostProps from './create-post-props';
-import React, {useContext, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import CreatePostView from './create-post-view';
 import IForum from '../../../models/forum';
 
 const CreatePost: React.FunctionComponent<ICreatePostProps> = (props) => {
-    const {onCancel, onDone, selectForum = false} = props;
+    const {onCancel, onDone, selectForum = false, forum} = props;
     const {user} = useContext(AuthenticationContext);
     const [content, setContent] = useState('');
     const [selectedForum, setSelectedForum] = useState<IForum>();
+
+    useEffect(() => {
+        if (!selectForum) {
+            setSelectedForum(forum);
+        }
+    }, [forum, selectForum]);
 
     const uploadPost = async () => {
         if (!user) {
