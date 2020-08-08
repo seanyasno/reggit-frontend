@@ -1,8 +1,7 @@
 import {List, ListItem, Dialog, makeStyles, Card, Typography} from '@material-ui/core';
-import {AuthenticationContext, SubscriptionContext} from '../../../contexts/index';
-import SubscriptionController from '../../../controllers/subscription-controller';
 import {ForumController, PostingController} from '../../../controllers';
 import ForumCard from '../../components/forum-card/forum-card';
+import {AuthenticationContext} from '../../../contexts/index';
 import React, {useContext, useEffect, useState} from 'react';
 import {CreatePost, Post} from '../../components';
 import {useCardStyle} from '../../../constants';
@@ -35,7 +34,6 @@ const useStyles = makeStyles({
 const HomePage = () => {
     const [showDialog, setShowDialog] = useState(false);
     const [forums, setForums] = useState<Array<IForum>>([]);
-    const [forumIds, setForumIds] = useState<Array<string>>([]);
     const {user} = useContext(AuthenticationContext);
     const classes = useStyles();
     const cardStyle = useCardStyle();
@@ -54,11 +52,6 @@ const HomePage = () => {
                 setForums(allForums);
             }
         });
-        SubscriptionController.getAllForumsByUserId(user?.id || '').then(forumIds => {
-           if (mounted) {
-               setForumIds(forumIds);
-           }
-        });
         return () => {
             mounted = false;
         }
@@ -73,10 +66,7 @@ const HomePage = () => {
         const forumCards: Array<JSX.Element> = [];
         forums.map((forum, index) => forumCards.push(
             <ListItem key={index}>
-                <ForumCard
-                    subscribed={Boolean(forumIds.find(forumId => forumId === forum.id))}
-                    forum={forum}
-                />
+                <ForumCard forum={forum}/>
             </ListItem>
         ));
         return forumCards;
@@ -88,14 +78,12 @@ const HomePage = () => {
                   onClick={() => setShowDialog(true)}>
                 <Typography color={'textSecondary'}>What's on your mind?</Typography>
             </Card>
-            <SubscriptionContext.Provider value={{forumIds, setForumIds}}>
-                <List className={classes.forums}>
-                    {generateForumCards()}
-                </List>
-            </SubscriptionContext.Provider>
+            <List className={classes.forums}>
+                {generateForumCards()}
+            </List>
             <Dialog style={{maxWidth: '30%', margin: 'auto'}} PaperProps={{className: classes.dialog}} open={showDialog}
                     onClose={() => setShowDialog(false)}>
-                <CreatePost onCancel={() => setShowDialog(false)} onDone={onNewCreatedPost}/>
+                <CreatePost selectForum={true} onCancel={() => setShowDialog(false)} onDone={onNewCreatedPost}/>
             </Dialog>
             {
                 posts.map((post, index) => (
