@@ -6,7 +6,7 @@ import CreatePostView from './create-post-view';
 import IForum from '../../../models/forum';
 
 const CreatePost: React.FunctionComponent<ICreatePostProps> = (props) => {
-    const {onCancel, onDone} = props;
+    const {onCancel, onDone, selectForum = false} = props;
     const {user} = useContext(AuthenticationContext);
     const [content, setContent] = useState('');
     const [selectedForum, setSelectedForum] = useState<IForum>();
@@ -30,7 +30,7 @@ const CreatePost: React.FunctionComponent<ICreatePostProps> = (props) => {
     }
 
     return (
-        <CreatePostView user={user} uploadPost={uploadPost} onCancel={onCancel} setContent={setContent} setSelectedForum={setSelectedForum}/>
+        <CreatePostView user={user} uploadPost={uploadPost} onCancel={onCancel} setContent={setContent} setSelectedForum={setSelectedForum} selectForum={selectForum}/>
     );
 }
 

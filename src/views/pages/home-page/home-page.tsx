@@ -83,7 +83,7 @@ const HomePage = () => {
             </List>
             <Dialog style={{maxWidth: '30%', margin: 'auto'}} PaperProps={{className: classes.dialog}} open={showDialog}
                     onClose={() => setShowDialog(false)}>
-                <CreatePost onCancel={() => setShowDialog(false)} onDone={onNewCreatedPost}/>
+                <CreatePost selectForum={true} onCancel={() => setShowDialog(false)} onDone={onNewCreatedPost}/>
             </Dialog>
             {
                 posts.map((post, index) => (

@@ -8,4 +8,5 @@ export default interface ICreatePostViewProps {
     uploadPost: () => {};
     setContent: Dispatch<SetStateAction<string>>;
     setSelectedForum: Dispatch<SetStateAction<IForum | undefined>>;
+    selectForum: boolean;
 }

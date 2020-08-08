@@ -54,7 +54,7 @@ const useStyles = makeStyles({
 });
 
 const CreatePostView: React.FunctionComponent<ICreatePostViewProps> = (props) => {
-    const {user, onCancel, uploadPost, setContent, setSelectedForum} = props;
+    const {user, onCancel, uploadPost, setContent, setSelectedForum, selectForum} = props;
     const classes = useStyles();
 
     return (
@@ -73,9 +73,11 @@ const CreatePostView: React.FunctionComponent<ICreatePostViewProps> = (props) =>
                 autoFocus={true}
                 rowsMax={15}
                 onChange={event => setContent(event.target.value)}/>
-            <div className={classes.forums}>
-                <ForumChips setSelectedForum={setSelectedForum}/>
-            </div>
+            {
+                selectForum && <div className={classes.forums}>
+                    <ForumChips setSelectedForum={setSelectedForum}/>
+                </div>
+            }
             <Button
                 className={classes.postButton}
                 variant={'contained'}
